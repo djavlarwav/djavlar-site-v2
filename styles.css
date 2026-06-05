@@ -1,10 +1,9 @@
 @import url('https://fonts.cdnfonts.com/css/itc-benguiat');
 
 :root{
-    --bg:#241b22;
-    --panel:#2b2028;
-    --red:#ff3131;
-    --text:#f2f2f2;
+    --bg:#1c1c20;
+    --red:#ff463d;
+    --text:#f4f4f4;
 }
 
 *{
@@ -13,7 +12,8 @@
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
 }
@@ -25,278 +25,195 @@ body{
     overflow-x:hidden;
 }
 
-/* NAV */
+/* NAVIGATION */
 
 nav{
     position:sticky;
     top:0;
     z-index:1000;
 
-    background:rgba(36,27,34,.95);
-    backdrop-filter:blur(8px);
-
     display:flex;
     justify-content:center;
-    align-items:center;
-    flex-wrap:wrap;
+    gap:22px;
 
-    gap:16px;
+    padding:28px 12px;
 
-    padding:18px 12px;
+    background:rgba(28,28,32,.96);
 
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.nav-btn{
+nav button{
     background:none;
     border:none;
 
-    color:var(--text);
+    color:#f2f2f2;
 
     font-family:'ITC Benguiat', serif;
-    font-size:.95rem;
-    letter-spacing:1px;
+
+    font-size:1rem;
 
     cursor:pointer;
 
-    padding:8px 4px;
+    letter-spacing:1px;
 
-    transition:.25s;
+    padding-bottom:10px;
 }
 
-.nav-btn:hover{
+nav button.active{
     color:var(--red);
+    border-bottom:3px solid var(--red);
 }
 
-.nav-btn.active{
-    color:var(--red);
-    border-bottom:2px solid var(--red);
+/* LOGO */
+
+.logo-bg{
+    text-align:center;
+    margin-top:50px;
 }
 
-.nav-logo{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.nav-logo img{
-    width:65px;
+.logo-bg img{
+    width:180px;
+    height:auto;
 
     filter:
     brightness(0)
     saturate(100%)
-    invert(16%)
-    sepia(99%)
-    saturate(7478%)
-    hue-rotate(354deg)
-    brightness(108%)
-    contrast(122%);
+    invert(31%)
+    sepia(91%)
+    saturate(3413%)
+    hue-rotate(344deg)
+    brightness(103%)
+    contrast(105%);
 }
 
-/* PAGES */
+/* PAGE */
 
 .page{
     display:none;
-    width:min(1100px,92vw);
+    max-width:1000px;
     margin:auto;
     text-align:center;
-    padding:50px 20px 80px;
+    padding:40px 25px 90px;
 }
 
 .page.active{
     display:block;
 }
 
-/* HOME */
+/* HEADINGS */
 
-.hero{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    min-height:70vh;
-}
-
-.hero-logo{
-    width:180px;
-    margin-bottom:20px;
-
-    filter:
-    brightness(0)
-    saturate(100%)
-    invert(16%)
-    sepia(99%)
-    saturate(7478%)
-    hue-rotate(354deg)
-    brightness(108%)
-    contrast(122%);
-}
-
-.hero h1{
+h1{
     color:var(--red);
-    font-size:clamp(2.8rem,7vw,5.8rem);
+
+    font-size:clamp(3rem,7vw,6rem);
+
+    font-weight:normal;
+
+    margin-bottom:40px;
+
     letter-spacing:2px;
-    margin-bottom:15px;
 }
 
-.hero h2{
-    color:var(--red);
-    font-size:1.4rem;
-    font-weight:400;
-    letter-spacing:4px;
-    margin-bottom:25px;
-}
+h2{
+    color:#f2f2f2;
 
-.est{
-    color:var(--red);
-    font-size:1.1rem;
-    letter-spacing:3px;
-    margin-bottom:30px;
+    font-weight:normal;
+
+    letter-spacing:6px;
+
+    margin-bottom:40px;
 }
 
 .motto{
-    color:var(--red);
-    letter-spacing:3px;
-    font-size:1rem;
-}
+    color:#e6e6e6;
 
-/* HEADINGS */
+    letter-spacing:5px;
 
-.page h1{
-    color:var(--red);
-    font-size:clamp(2rem,6vw,4rem);
-    margin-bottom:35px;
+    font-size:1.1rem;
 }
 
 /* ABOUT */
 
 .about-text{
-    max-width:850px;
-    margin:auto;
-
-    color:var(--red);
-
-    line-height:2;
-
-    font-size:1rem;
-}
-
-/* SERVICES */
-
-.services-layout{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:40px;
-
     max-width:900px;
 
-    margin:50px auto;
-}
-
-.services-layout div{
-
-    color:var(--red);
-
-    font-size:1.25rem;
-
-    letter-spacing:2px;
-}
-
-.service-logo{
-
-    width:180px;
-
     margin:auto;
 
-    grid-column:1 / span 2;
+    color:#f2f2f2;
 
-    filter:
-    brightness(0)
-    saturate(100%)
-    invert(16%)
-    sepia(99%)
-    saturate(7478%)
-    hue-rotate(354deg)
-    brightness(108%)
-    contrast(122%);
+    line-height:2.2;
+
+    font-size:1.05rem;
+
+    text-align:center;
 }
 
 /* MUSIC */
 
-.music-grid{
-
+.button-group{
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(2,1fr);
 
-    gap:25px;
+    gap:30px;
 
-    max-width:1000px;
-
-    margin:auto;
+    margin-top:40px;
 }
 
-.music-grid a{
-
+.button-group a{
     text-decoration:none;
 
-    color:var(--text);
+    color:white;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    padding:40px 20px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+    font-size:1.2rem;
+
+    letter-spacing:2px;
+}
+
+.button-group a:hover{
+    border-color:var(--red);
+
+    color:var(--red);
+}
+
+/* SERVICES */
+
+.services-list{
+    list-style:none;
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
+    gap:35px;
 
-    gap:15px;
-
-    transition:.25s;
+    margin-top:50px;
 }
 
-.music-grid a:hover{
-    transform:translateY(-6px);
+.services-list li{
+    color:#f2f2f2;
+
+    font-size:1.5rem;
+
+    letter-spacing:1px;
 }
 
-.music-grid i{
-    font-size:4rem;
-}
+/* BUTTONS */
 
-.music-grid .fa-spotify{
-    color:#1DB954;
-}
-
-.music-grid .fa-youtube{
-    color:#ff0000;
-}
-
-.music-grid .fa-bandcamp{
-    color:#629aa9;
-}
-
-.music-grid .fa-apple{
-    color:#ffffff;
-}
-
-.music-grid span{
-    color:var(--red);
-    letter-spacing:2px;
-}
-
-/* CONTACT + MERCH */
-
-.contact-copy{
-    color:var(--red);
-    margin-bottom:35px;
-    letter-spacing:2px;
-}
-
-.main-btn{
-
+.quote-btn,
+.merch-btn{
     display:inline-block;
+
+    margin-top:50px;
 
     text-decoration:none;
 
@@ -304,15 +221,16 @@ nav{
 
     color:white;
 
-    padding:18px 32px;
+    padding:18px 35px;
 
     border-radius:6px;
 
-    transition:.25s;
+    transition:.3s;
 }
 
-.main-btn:hover{
-    transform:translateY(-4px);
+.quote-btn:hover,
+.merch-btn:hover{
+    transform:translateY(-3px);
 }
 
 /* MOBILE */
@@ -320,44 +238,32 @@ nav{
 @media(max-width:768px){
 
     nav{
-        gap:10px;
+        gap:14px;
+        flex-wrap:wrap;
     }
 
-    .nav-btn{
-        font-size:.8rem;
+    nav button{
+        font-size:.9rem;
     }
 
-    .nav-logo img{
-        width:50px;
-    }
-
-    .hero{
-        min-height:60vh;
-    }
-
-    .hero-logo{
+    .logo-bg img{
         width:130px;
     }
 
-    .services-layout{
-        grid-template-columns:1fr;
-        gap:28px;
-    }
-
-    .service-logo{
-        grid-column:auto;
-        width:130px;
-    }
-
-    .music-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .music-grid i{
+    h1{
         font-size:3rem;
     }
 
     .about-text{
-        line-height:1.8;
+        font-size:.95rem;
+        line-height:2;
+    }
+
+    .button-group{
+        grid-template-columns:1fr;
+    }
+
+    .services-list li{
+        font-size:1.2rem;
     }
 }
