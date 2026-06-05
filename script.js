@@ -1,38 +1,16 @@
-function showPage(pageId){
+function showPage(pageId, button) {
 
-    const pages = document.querySelectorAll('.page');
-    const buttons = document.querySelectorAll('nav button');
-
-    pages.forEach(page=>{
+    document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
 
-    buttons.forEach(btn=>{
+    document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
 
-    document
-        .getElementById(pageId)
-        .classList.add('active');
+    document.getElementById(pageId).classList.add('active');
 
-    const activeButton = [...buttons].find(
-        btn =>
-        btn.textContent.toLowerCase() === pageId
-    );
-
-    if(activeButton){
-        activeButton.classList.add('active');
+    if (button) {
+        button.classList.add('active');
     }
-
 }
-
-document.addEventListener('DOMContentLoaded',()=>{
-
-    const homeButton = [...document.querySelectorAll('nav button')]
-        .find(btn=>btn.textContent==="HOME");
-
-    if(homeButton){
-        homeButton.classList.add('active');
-    }
-
-});
