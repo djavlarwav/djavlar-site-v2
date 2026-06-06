@@ -550,26 +550,6 @@ html{
     hue-rotate(355deg)
     brightness(112%)
     contrast(122%);
-
-    animation:
-    ghostRotate 240s linear infinite;
-}
-
-@keyframes ghostRotate{
-
-    from{
-
-        transform:
-        translate(-50%,-50%)
-        rotate(0deg);
-    }
-
-    to{
-
-        transform:
-        translate(-50%,-50%)
-        rotate(360deg);
-    }
 }
 
 /* Rotating sigils */
