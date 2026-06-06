@@ -506,50 +506,6 @@ html{
     }
 }
 
-/* ---------------- STATIC BACKGROUND SIGIL ---------------- */
-
-#about::before,
-#music::before,
-#services::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:500px;
-    height:500px;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    background-image:
-    url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
-
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:contain;
-
-    opacity:.025;
-
-    pointer-events:none;
-
-    z-index:-1;
-
-    filter:
-    brightness(0)
-    saturate(100%)
-    invert(15%)
-    sepia(98%)
-    saturate(6317%)
-    hue-rotate(355deg)
-    brightness(112%)
-    contrast(122%);
-
-    animation:none !important;
-}
-
 /* No background sigil on Home or Merch */
 
 #home::before,
@@ -1099,24 +1055,6 @@ body::after{
     content:none !important;
     background:none !important;
 }
-
-/* Keep background sigil static on other pages */
-
-#about::before,
-#music::before,
-#services::before{
-    animation:none !important;
-}
-
-    to{
-
-        opacity:.02;
-
-        transform:
-        translate(-50%,-50%)
-        scale(1);
-    }
-}
 /* ========================================= */
 /* =========== DJAVLAR FINAL TWEAKS ========= */
 /* ========================================= */
@@ -1282,4 +1220,105 @@ body::after{
     height:470px !important;
 
     opacity:.03 !important;
+}
+/* ===================================== */
+/* FINAL STATIC BACKGROUND SIGIL FIX     */
+/* ===================================== */
+
+#about,
+#music,
+#services{
+    position:relative;
+    overflow:hidden;
+}
+
+#about::before,
+#music::before,
+#services::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:520px;
+    height:520px;
+
+    background-image:url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+
+    opacity:.03;
+
+    pointer-events:none;
+    z-index:-1;
+
+    animation:none !important;
+
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(6317%)
+    hue-rotate(355deg)
+    brightness(112%)
+    contrast(122%);
+}
+
+#home::before,
+#merch::before{
+    display:none !important;
+}
+
+/* ===================================== */
+/* SERVICE LINE FIX                      */
+/* ===================================== */
+
+.services-list li{
+
+    position:relative;
+
+    text-decoration:none !important;
+
+    padding-bottom:18px;
+}
+
+.services-list li::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    bottom:0;
+
+    transform:translateX(-50%);
+
+    width:170px;
+
+    height:2px;
+
+    background:var(--red);
+
+    box-shadow:
+    0 0 6px rgba(255,49,49,.4);
+
+    border-radius:2px;
+}
+
+@media(max-width:768px){
+
+    #about::before,
+    #music::before,
+    #services::before{
+
+        width:420px;
+        height:420px;
+    }
 }
