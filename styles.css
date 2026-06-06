@@ -905,3 +905,43 @@ hr {
 #music::before,
 #services::before{width:320px;height:320px;opacity:.02;}
 }
+
+
+/* ===== FINAL OVERRIDES ===== */
+
+#about::before,
+#music::before,
+#services::before{
+    animation:none !important;
+    transition:none !important;
+    width:500px !important;
+    height:500px !important;
+    opacity:.025 !important;
+    transform:translate(-50%,-50%) !important;
+}
+
+#home::before,
+#merch::before{
+    display:none !important;
+}
+
+.hero::before,
+.hero::after{
+    height:2px !important;
+    background:var(--red) !important;
+}
+
+.services-list li{
+    text-decoration-color:var(--red) !important;
+    text-decoration-thickness:2px !important;
+    text-shadow:0 0 6px rgba(255,49,49,.35) !important;
+}
+
+@media(max-width:768px){
+#about::before,
+#music::before,
+#services::before{
+    width:340px !important;
+    height:340px !important;
+}
+}
