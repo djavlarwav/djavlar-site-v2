@@ -524,7 +524,7 @@ html{
 
     transform:translate(-50%,-50%) scale(.9);
 
-animation:sigilFloat 2.5s ease forwards;
+    animation:sigilFloat 2.5s ease forwards;
 
     background-image:
     url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
