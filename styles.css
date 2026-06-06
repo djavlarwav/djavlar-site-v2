@@ -28,6 +28,25 @@ body{
     text-rendering:optimizeLegibility;
 }
 
+/* ---------------- GLOBAL FONT LOOK ---------------- */
+
+h1,
+h2,
+.nav-btn,
+.motto,
+.page h1,
+.services-list li,
+.music-icons span,
+.email-btn,
+.store-btn{
+
+    font-weight:700;
+
+    text-shadow:
+    0 0 .5px currentColor,
+    0 0 .5px currentColor;
+}
+
 /* ---------------- NAV ---------------- */
 
 nav{
@@ -65,6 +84,8 @@ nav{
     cursor:pointer;
 
     padding-bottom:6px;
+
+    letter-spacing:1px;
 
     transition:.3s;
 }
@@ -115,7 +136,7 @@ nav{
 
     width:170px;
 
-    margin-bottom:30px;
+    margin-bottom:22px;
 
     filter:
     brightness(0)
@@ -132,31 +153,29 @@ nav{
 
     color:var(--red);
 
-    font-size:clamp(3rem,8vw,5.5rem);
+    font-size:clamp(3.3rem,8vw,6rem);
 
-    line-height:1;
+    line-height:.95;
 
-    font-weight:normal;
+    margin-bottom:20px;
 
-    margin-bottom:25px;
+    letter-spacing:2px;
 }
 
 .hero h2{
 
     color:var(--red);
 
-    font-weight:normal;
+    letter-spacing:5px;
 
-    letter-spacing:4px;
-
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .motto{
 
     color:var(--red);
 
-    letter-spacing:4px;
+    letter-spacing:5px;
 
     font-size:1rem;
 }
@@ -190,9 +209,9 @@ nav{
 
     font-size:3rem;
 
-    font-weight:normal;
-
     margin-bottom:40px;
+
+    letter-spacing:2px;
 }
 
 /* ---------------- ABOUT ---------------- */
@@ -310,6 +329,8 @@ nav{
 
     align-items:center;
 
+    justify-content:center;
+
     gap:12px;
 
     text-decoration:none;
@@ -362,7 +383,7 @@ nav{
 
     .hero h1{
 
-        font-size:3rem;
+        font-size:3.2rem;
     }
 
     .music-icons{
