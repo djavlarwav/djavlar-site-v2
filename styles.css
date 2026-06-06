@@ -1084,3 +1084,23 @@ body::after{
         scale(1.03);
     }
 }
+/* CONTACT MESSAGE */
+
+.contact-copy{
+
+    max-width:650px;
+
+    margin:0 auto 30px;
+
+    color:white;
+
+    line-height:1.7;
+
+    font-size:.95rem;
+
+    letter-spacing:.5px;
+
+    text-align:center;
+
+    opacity:.9;
+}
