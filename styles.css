@@ -522,7 +522,9 @@ html{
     left:50%;
     top:50%;
 
-    transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%) scale(.9);
+
+animation:sigilFloat 2.5s ease forwards;
 
     background-image:
     url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
@@ -1104,4 +1106,24 @@ body::after{
 #music::before,
 #services::before{
     animation:none !important;
+}
+@keyframes sigilFloat{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translate(-50%,-50%)
+        scale(.94);
+    }
+
+    to{
+
+        opacity:.02;
+
+        transform:
+        translate(-50%,-50%)
+        scale(1);
+    }
 }
