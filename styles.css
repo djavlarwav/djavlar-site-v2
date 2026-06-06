@@ -1084,3 +1084,22 @@ body::after{
 
     opacity:.9;
 }
+/* -------------------------------- */
+/* REMOVE LARGE BACKGROUND SIGIL    */
+/* FROM HOME + MERCH                */
+/* -------------------------------- */
+
+#home::before,
+#merch::before{
+    display:none !important;
+    content:none !important;
+    background:none !important;
+}
+
+/* Keep background sigil static on other pages */
+
+#about::before,
+#music::before,
+#services::before{
+    animation:none !important;
+}
