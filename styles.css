@@ -558,22 +558,13 @@ html{
     content:none !important;
 }
 
-/* NO BACKGROUND SIGIL */
-
-#home::before,
-#merch::before{
-
-    display:none;
-    content:none;
-}
 
 /* Rotating sigils */
 
 .hero-logo,
 .page-logo{
 
-    animation:
-    pulseSigil 5s ease-in-out infinite;
+    animation:none;
 }
 
 @keyframes rotateSigil{
@@ -1054,12 +1045,6 @@ body::after{
 
 @media(max-width:768px){
 
-    .page::before{
-
-        width:420px;
-        height:420px;
-    }
-
     .hero::before,
     .hero::after{
 
@@ -1068,8 +1053,9 @@ body::after{
 
     .music-icons a:hover{
 
-        transform:
-        scale(1.03);
+        transform:scale(1.03);
+    }
+
     #about::before,
     #music::before,
     #services::before{
