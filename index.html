@@ -1,110 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>DJAVLAR PRODUCTIONS</title>
+
 <link href="https://fonts.cdnfonts.com/css/itc-benguiat" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="styles.css">
+
 </head>
+
 <body>
+
 <nav>
 
+<button class="nav-btn active"
+onclick="showPage('home',this)">
 HOME
+</button>
 
+<button class="nav-btn"
+onclick="showPage('about',this)">
 ABOUT
+</button>
 
-SERVICES
-
-<div class="nav-logo">
-<img src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png" alt="DJAVLAR Logo">
-</div>
-
+<button class="nav-btn"
+onclick="showPage('music',this)">
 MUSIC
+</button>
 
-CONTACT
+<button class="nav-btn"
+onclick="showPage('services',this)">
+SERVICES
+</button>
 
+<button class="nav-btn"
+onclick="showPage('merch',this)">
 MERCH
+</button>
 
 </nav>
-<section id="home" class="page active">
+
+
+<!-- HOME -->
+
+<section id="home"
+class="page active">
+
 <div class="hero">
-<h1>DJAVLAR PRODUCTIONS</h1>
-<h2>MUSICAL SERVICES</h2>
-<p class="est">EST. 2022</p>
+
+<img
+class="hero-logo"
+src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png"
+alt="DJAVLAR LOGO">
+
+<h1>
+DJAVLAR<br>
+PRODUCTIONS
+</h1>
+
+<h2>
+EST. 2022
+</h2>
+
 <p class="motto">
 MASTERING THE ART OF SOUND
 </p>
+
 </div>
+
 </section>
-<section id="about" class="page">
-<h1>ABOUT</h1>
+
+
+<!-- ABOUT -->
+
+<section
+id="about"
+class="page">
+
+<img
+class="page-logo"
+src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png"
+alt="logo">
+
+<h1>
+ABOUT
+</h1>
+
 <p class="about-text">
 
-MY NAME IS MICHAEL G. AGUILAR, AKA DJAVLAR.WAV.
+MY NAME IS MICHAEL G. AGUILAR,
+AKA DJAVLAR.WAV.
 
-I AM AN INDEPENDENT MULTI-GENRE INSTRUMENTALIST, PRODUCER, & AUDIO ENGINEER BASED IN LOS ANGELES, CALIFORNIA.
+<br><br>
 
-MY INTRODUCTION TO INSTRUMENTATION BEGAN AROUND 2015, IGNITING A PASSION THAT CONTINUES TO DRIVE MY MUSICAL EXPLORATION.
+I AM AN INDEPENDENT
+MULTI-GENRE
+INSTRUMENTALIST,
+PRODUCER,
+AND AUDIO ENGINEER
+BASED IN
+LOS ANGELES,
+CALIFORNIA.
 
-I AM A RECIPIENT OF THE QUINCY JONES AWARD FOR MUSIC PRODUCTION & MY DAW IS LOGIC PRO.
+<br><br>
+
+MY INTRODUCTION
+TO INSTRUMENTATION
+BEGAN AROUND 2015,
+IGNITING A PASSION
+THAT CONTINUES
+TO DRIVE MY
+MUSICAL
+EXPLORATION TODAY.
+
+<br><br>
+
+I AM A RECIPIENT OF
+THE QUINCY JONES
+AWARD FOR MUSIC
+PRODUCTION,
+AND MY PRIMARY
+DIGITAL AUDIO
+WORKSTATION
+IS LOGIC PRO.
 
 </p>
-</section>
-<section id="services" class="page">
-<h1>SERVICES</h1>
-<div class="services-layout">
-<div>MIX & MASTER</div>
-<div>MIDI REWORK</div>
-<div>VOCAL TUNING</div>
-<div>INSTRUMENTATION</div>
-<div>AUDIO ALIGNMENT</div>
-</div>
 
-CONTACT FOR QUOTE
 </section>
-<section id="music" class="page">
-<h1>MUSIC</h1>
-<div class="music-grid">
-<a href="https://music.apple.com/us/artist/djavlar-wav/1698589527" target="_blank">
-<i class="fa-brands fa-apple"></i>
-<span>APPLE MUSIC</span>
-</a>
-<a href="https://djavlarwav.bandcamp.com" target="_blank">
-<i class="fa-brands fa-bandcamp"></i>
-<span>BANDCAMP</span>
-</a>
-<a href="https://open.spotify.com/artist/02heA59LHBNsCaav8mUyXk?si=ThyCFIFGQ46E0pamC5yxuw" target="_blank">
+
+
+<!-- MUSIC -->
+
+<section
+id="music"
+class="page">
+
+<img
+class="page-logo"
+src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png"
+alt="logo">
+
+<h1>
+MUSIC
+</h1>
+
+<div class="music-icons">
+
+<a
+href="https://open.spotify.com/artist/02heA59LHBNsCaav8mUyXk?si=ThyCFIFGQ46E0pamC5yxuw"
+target="_blank">
+
 <i class="fa-brands fa-spotify"></i>
 <span>SPOTIFY</span>
+
 </a>
-<a href="https://www.youtube.com/channel/UCd66GeVuuFHZqwmvI0n9vIA" target="_blank">
+
+<a
+href="https://music.apple.com/us/artist/djavlar-wav/1698589527"
+target="_blank">
+
+<i class="fa-brands fa-apple"></i>
+<span>APPLE MUSIC</span>
+
+</a>
+
+<a
+href="https://djavlarwav.bandcamp.com"
+target="_blank">
+
+<i class="fa-brands fa-bandcamp"></i>
+<span>BANDCAMP</span>
+
+</a>
+
+<a
+href="https://www.youtube.com/channel/UCd66GeVuuFHZqwmvI0n9vIA"
+target="_blank">
+
 <i class="fa-brands fa-youtube"></i>
 <span>YOUTUBE</span>
+
 </a>
+
 </div>
+
 </section>
-<section id="contact" class="page">
-<h1>CONTACT</h1>
-<p class="contact-copy">
 
-LET’S CREATE SOMETHING AMAZING TOGETHER.
 
-</p>
+<!-- SERVICES -->
 
-EMAIL ME
+<section
+id="services"
+class="page">
+
+<img
+class="page-logo"
+src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png"
+alt="logo">
+
+<h1>
+SERVICES
+</h1>
+
+<ul class="services-list">
+
+<li>Music Production</li>
+
+<li>Mixing</li>
+
+<li>Mastering</li>
+
+<li>Sound Design</li>
+
+<li>Custom Audio Projects</li>
+
+</ul>
+
+<a
+class="email-btn"
+href="mailto:DjavlarProductions@gmail.com">
+
+<i class="fa-regular fa-envelope"></i>
+
+CONTACT
 
 </a>
-</section>
-<section id="merch" class="page">
-<h1>MERCH</h1>
 
-VISIT STORE
+</section>
+
+
+<!-- MERCH -->
+
+<section
+id="merch"
+class="page">
+
+<img
+class="page-logo"
+src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png"
+alt="logo">
+
+<h1>
+MERCH
+</h1>
+
+<a
+class="store-btn"
+href="https://djavlarwav.printful.me"
+target="_blank">
+
+ENTER STORE
 
 </a>
+
 </section>
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
