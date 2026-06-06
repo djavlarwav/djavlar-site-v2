@@ -153,31 +153,52 @@ nav{
 
     color:var(--red);
 
-    font-size:clamp(3.3rem,8vw,6rem);
+    font-size:clamp(3.5rem,8vw,6.3rem);
 
-    line-height:.95;
+    line-height:.92;
 
-    margin-bottom:20px;
+    margin-bottom:18px;
 
-    letter-spacing:2px;
+    letter-spacing:1px;
+
+    font-weight:900;
+
+    text-shadow:
+    0 0 .8px currentColor,
+    0 0 .8px currentColor,
+    0 0 .8px currentColor;
 }
 
 .hero h2{
 
     color:var(--red);
 
-    letter-spacing:5px;
+    font-size:1.45rem;
 
-    margin-bottom:25px;
+    letter-spacing:6px;
+
+    margin-bottom:28px;
+
+    font-weight:900;
+
+    text-shadow:
+    0 0 .7px currentColor,
+    0 0 .7px currentColor;
 }
 
 .motto{
 
     color:var(--red);
 
-    letter-spacing:5px;
+    font-size:1.1rem;
 
-    font-size:1rem;
+    letter-spacing:6px;
+
+    font-weight:900;
+
+    text-shadow:
+    0 0 .7px currentColor,
+    0 0 .7px currentColor;
 }
 
 /* ---------------- PAGE LOGO ---------------- */
