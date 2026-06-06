@@ -21,7 +21,11 @@ body{
     background:var(--bg);
     color:var(--text);
     font-family:'ITC Benguiat', serif;
+    font-weight:700;
     overflow-x:hidden;
+
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
 }
 
 /* ---------------- NAV ---------------- */
