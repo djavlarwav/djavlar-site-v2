@@ -506,16 +506,18 @@ html{
     }
 }
 
-/* Ghost sigil */
+/* ---------------- BACKGROUND SIGIL ---------------- */
 
 .page{
-
     position:relative;
-
     overflow:hidden;
 }
 
-.page::before{
+/* ONLY ABOUT, MUSIC, SERVICES */
+
+#about::before,
+#music::before,
+#services::before{
 
     content:"";
 
@@ -527,8 +529,7 @@ html{
     left:50%;
     top:50%;
 
-    transform:
-    translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 
     background-image:
     url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
@@ -552,18 +553,22 @@ html{
     contrast(122%);
 }
 
+/* NO BACKGROUND SIGIL */
+
+#home::before,
+#merch::before{
+
+    display:none;
+    content:none;
+}
+
 /* Rotating sigils */
 
 .hero-logo,
 .page-logo{
 
     animation:
-
-    rotateSigil 100s linear infinite,
-
     pulseSigil 5s ease-in-out infinite;
-
-    transition:1s;
 }
 
 @keyframes rotateSigil{
@@ -656,8 +661,6 @@ html{
     animation:
 
     introLogo 2s ease forwards,
-
-    rotateSigil 100s linear infinite,
 
     pulseSigil 5s ease-in-out infinite;
 }
