@@ -136,7 +136,7 @@ nav{
 
     width:170px;
 
-    margin-bottom:22px;
+    margin-bottom:30px;
 
     filter:
     brightness(0)
@@ -146,7 +146,44 @@ nav{
     saturate(6317%)
     hue-rotate(355deg)
     brightness(112%)
-    contrast(122%);
+    contrast(122%)
+    drop-shadow(0 0 8px rgba(255,49,49,.4))
+    drop-shadow(0 0 18px rgba(255,49,49,.2));
+
+    animation:rotateSigil 100s linear infinite;
+}
+
+.page-logo{
+
+    width:110px;
+
+    margin:20px auto 35px;
+
+    display:block;
+
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(6317%)
+    hue-rotate(355deg)
+    brightness(112%)
+    contrast(122%)
+    drop-shadow(0 0 6px rgba(255,49,49,.35));
+
+    animation:rotateSigil 100s linear infinite;
+}
+
+@keyframes rotateSigil{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 .hero h1{
