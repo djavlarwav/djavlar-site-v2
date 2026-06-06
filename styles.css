@@ -1265,3 +1265,21 @@ body::after{
     0 0 6px rgba(255,49,49,.35);
 
 }
+/* ===================================== */
+/* STATIC BACKGROUND SIGIL               */
+/* ===================================== */
+
+#about::before,
+#music::before,
+#services::before{
+
+    animation:none !important;
+
+    transform:translate(-50%,-50%) !important;
+
+    width:470px !important;
+
+    height:470px !important;
+
+    opacity:.03 !important;
+}
