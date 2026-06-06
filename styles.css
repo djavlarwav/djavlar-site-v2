@@ -1117,3 +1117,114 @@ body::after{
         scale(1);
     }
 }
+/* ========================================= */
+/* =========== DJAVLAR FINAL TWEAKS ========= */
+/* ========================================= */
+
+/* HOME PAGE DIVIDER LINES */
+
+.hero::before,
+.hero::after{
+
+    width:220px !important;
+    height:2px !important;
+
+    background:var(--red) !important;
+
+    opacity:.85;
+
+    box-shadow:
+    0 0 6px rgba(255,49,49,.35),
+    0 0 14px rgba(255,49,49,.15);
+}
+
+/* SERVICE UNDERLINES */
+
+.services-list li{
+
+    text-decoration-thickness:2px;
+
+    text-decoration-color:var(--red) !important;
+
+    text-shadow:
+    0 0 .5px currentColor,
+    0 0 .5px currentColor;
+}
+
+.services-list li::after{
+
+    content:"";
+
+    display:block;
+
+    width:65%;
+
+    height:2px;
+
+    margin:10px auto 0;
+
+    background:var(--red);
+
+    border-radius:3px;
+
+    box-shadow:
+    0 0 6px rgba(255,49,49,.45),
+    0 0 12px rgba(255,49,49,.2);
+}
+
+/* Remove browser default underline */
+
+.services-list li{
+
+    text-decoration:none;
+}
+
+/* FOOTER */
+
+.site-footer{
+
+    margin-top:90px;
+
+    padding:35px 20px 50px;
+
+    text-align:center;
+
+    color:rgba(255,255,255,.65);
+
+    font-size:.8rem;
+
+    letter-spacing:2px;
+
+    line-height:1.8;
+}
+
+.site-footer .footer-line{
+
+    width:140px;
+    height:2px;
+
+    margin:0 auto 25px;
+
+    background:var(--red);
+
+    opacity:.8;
+
+    box-shadow:
+    0 0 6px rgba(255,49,49,.35);
+}
+
+.site-footer .footer-brand{
+
+    color:var(--red);
+
+    font-size:.95rem;
+
+    letter-spacing:4px;
+
+    margin-bottom:10px;
+}
+
+.site-footer .footer-copy{
+
+    opacity:.7;
+}
