@@ -506,7 +506,7 @@ html{
     }
 }
 
-/* ---------------- SUBTLE BACKGROUND SIGIL ---------------- */
+/* ---------------- STATIC BACKGROUND SIGIL ---------------- */
 
 #about::before,
 #music::before,
@@ -516,28 +516,26 @@ html{
 
     position:absolute;
 
-    width:350px;
-    height:350px;
+    width:500px;
+    height:500px;
 
     left:50%;
     top:50%;
 
-    transform:translate(-50%,-50%) scale(.9);
-
-    animation:sigilFloat 2.5s ease forwards;
+    transform:translate(-50%,-50%);
 
     background-image:
     url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
 
     background-repeat:no-repeat;
-
     background-position:center;
-
     background-size:contain;
 
-    opacity:.02;
+    opacity:.025;
 
     pointer-events:none;
+
+    z-index:-1;
 
     filter:
     brightness(0)
@@ -548,6 +546,8 @@ html{
     hue-rotate(355deg)
     brightness(112%)
     contrast(122%);
+
+    animation:none !important;
 }
 
 /* No background sigil on Home or Merch */
@@ -1107,16 +1107,6 @@ body::after{
 #services::before{
     animation:none !important;
 }
-@keyframes sigilFloat{
-
-    from{
-
-        opacity:0;
-
-        transform:
-        translate(-50%,-50%)
-        scale(.94);
-    }
 
     to{
 
