@@ -18,13 +18,23 @@ html,body{
 }
 
 body{
-    background:var(--bg);
+
+    background:
+    radial-gradient(circle at top,
+    #2f222b 0%,
+    #241b22 45%,
+    #181318 100%);
+
     color:var(--text);
+
     font-family:'ITC Benguiat', serif;
+
     font-weight:700;
+
     overflow-x:hidden;
 
     -webkit-font-smoothing:antialiased;
+
     text-rendering:optimizeLegibility;
 }
 
@@ -190,20 +200,19 @@ nav{
 
     color:var(--red);
 
-    font-size:clamp(3.5rem,8vw,6.3rem);
+    font-size:clamp(3rem,8vw,5.5rem);
 
-    line-height:.92;
-
-    margin-bottom:18px;
-
-    letter-spacing:1px;
+    line-height:.9;
 
     font-weight:900;
 
+    letter-spacing:-1px;
+
     text-shadow:
-    0 0 .8px currentColor,
-    0 0 .8px currentColor,
-    0 0 .8px currentColor;
+    0 0 8px rgba(255,49,49,.3),
+    0 0 20px rgba(255,49,49,.15);
+
+    margin-bottom:25px;
 }
 
 .hero h2{
