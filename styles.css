@@ -1228,3 +1228,40 @@ body::after{
 
     opacity:.7;
 }
+/* ===================================== */
+/* FIX SERVICE LINES                     */
+/* ===================================== */
+
+.services-list li{
+
+    position:relative;
+
+    text-decoration:none !important;
+
+    padding-bottom:18px;
+}
+
+.services-list li::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:0;
+
+    transform:translateX(-50%);
+
+    width:170px;          /* shorter */
+
+    height:2px;
+
+    background:var(--red);
+
+    border-radius:2px;
+
+    box-shadow:
+    0 0 6px rgba(255,49,49,.35);
+
+}
