@@ -469,3 +469,618 @@ nav{
     }
 
 }
+/* ================================================= */
+/* ========= DJAVLAR PREMIUM CINEMATIC PACK ======== */
+/* ================================================= */
+
+/* Smooth scrolling */
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* Fade between pages */
+
+.page.active{
+    animation:pageFade .8s ease;
+}
+
+@keyframes pageFade{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(15px)
+        scale(.99);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0)
+        scale(1);
+    }
+}
+
+/* Ghost sigil */
+
+.page{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.page::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    left:50%;
+    top:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+    background-image:
+    url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
+
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+
+    opacity:.035;
+
+    pointer-events:none;
+
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(6317%)
+    hue-rotate(355deg)
+    brightness(112%)
+    contrast(122%);
+
+    animation:
+    ghostRotate 240s linear infinite;
+}
+
+@keyframes ghostRotate{
+
+    from{
+
+        transform:
+        translate(-50%,-50%)
+        rotate(0deg);
+    }
+
+    to{
+
+        transform:
+        translate(-50%,-50%)
+        rotate(360deg);
+    }
+}
+
+/* Rotating sigils */
+
+.hero-logo,
+.page-logo{
+
+    animation:
+
+    rotateSigil 100s linear infinite,
+
+    pulseSigil 5s ease-in-out infinite;
+
+    transition:1s;
+}
+
+@keyframes rotateSigil{
+
+    from{
+
+        transform:
+        rotate(0deg);
+    }
+
+    to{
+
+        transform:
+        rotate(360deg);
+    }
+}
+
+@keyframes pulseSigil{
+
+    0%{
+
+        filter:
+        brightness(0)
+        saturate(100%)
+        invert(15%)
+        sepia(98%)
+        saturate(6317%)
+        hue-rotate(355deg)
+        brightness(112%)
+        contrast(122%)
+
+        drop-shadow(
+        0 0 6px
+        rgba(255,49,49,.25))
+
+        drop-shadow(
+        0 0 12px
+        rgba(255,49,49,.12));
+    }
+
+    50%{
+
+        filter:
+        brightness(0)
+        saturate(100%)
+        invert(15%)
+        sepia(98%)
+        saturate(6317%)
+        hue-rotate(355deg)
+        brightness(112%)
+        contrast(122%)
+
+        drop-shadow(
+        0 0 16px
+        rgba(255,49,49,.55))
+
+        drop-shadow(
+        0 0 36px
+        rgba(255,49,49,.25));
+    }
+
+    100%{
+
+        filter:
+        brightness(0)
+        saturate(100%)
+        invert(15%)
+        sepia(98%)
+        saturate(6317%)
+        hue-rotate(355deg)
+        brightness(112%)
+        contrast(122%)
+
+        drop-shadow(
+        0 0 6px
+        rgba(255,49,49,.25))
+
+        drop-shadow(
+        0 0 12px
+        rgba(255,49,49,.12));
+    }
+}
+
+/* Cinematic homepage */
+
+.hero-logo{
+
+    opacity:0;
+
+    animation:
+
+    introLogo 2s ease forwards,
+
+    rotateSigil 100s linear infinite,
+
+    pulseSigil 5s ease-in-out infinite;
+}
+
+.hero h1{
+
+    opacity:0;
+
+    animation:
+    introTitle 2s ease forwards;
+
+    animation-delay:.7s;
+
+    animation-fill-mode:forwards;
+}
+
+.hero h2{
+
+    opacity:0;
+
+    animation:
+    introSubtitle 2s ease forwards;
+
+    animation-delay:1.2s;
+
+    animation-fill-mode:forwards;
+}
+
+.motto{
+
+    opacity:0;
+
+    animation:
+    introMotto 2s ease forwards;
+
+    animation-delay:1.7s;
+
+    animation-fill-mode:forwards;
+}
+
+@keyframes introLogo{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        scale(.7)
+        rotate(-20deg);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        scale(1)
+        rotate(0deg);
+    }
+}
+
+@keyframes introTitle{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+    }
+}
+
+@keyframes introSubtitle{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(15px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+    }
+}
+
+@keyframes introMotto{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(15px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+    }
+}
+
+/* Hero divider lines */
+
+.hero::before{
+
+    content:"";
+
+    display:block;
+
+    width:180px;
+    height:1px;
+
+    background:
+    rgba(255,49,49,.35);
+
+    margin:0 auto 28px;
+}
+
+.hero::after{
+
+    content:"";
+
+    display:block;
+
+    width:180px;
+    height:1px;
+
+    background:
+    rgba(255,49,49,.35);
+
+    margin:35px auto 0;
+}
+
+/* Navbar */
+
+nav{
+
+    backdrop-filter:blur(8px);
+
+    box-shadow:
+    0 2px 20px
+    rgba(0,0,0,.25);
+}
+
+.nav-btn{
+
+    position:relative;
+}
+
+.nav-btn::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-4px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--red);
+
+    transition:.35s;
+}
+
+.nav-btn:hover::after,
+.nav-btn.active::after{
+
+    width:100%;
+}
+
+/* Music */
+
+.music-icons a{
+
+    transition:
+    transform .35s,
+    filter .35s;
+}
+
+.music-icons a:hover{
+
+    transform:
+    translateY(-5px)
+    scale(1.08);
+
+    filter:
+    drop-shadow(
+    0 0 12px
+    rgba(255,49,49,.35));
+}
+
+/* Services */
+
+.services-list li{
+
+    transition:
+    .3s;
+}
+
+.services-list li:hover{
+
+    color:var(--red);
+
+    text-shadow:
+    0 0 8px
+    rgba(255,49,49,.35);
+
+    transform:
+    translateX(6px);
+}
+
+/* Buttons */
+
+.email-btn,
+.store-btn{
+
+    transition:
+    .35s;
+}
+
+.email-btn:hover,
+.store-btn:hover{
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+
+    0 0 10px
+    rgba(255,49,49,.4),
+
+    0 0 30px
+    rgba(255,49,49,.2);
+}
+
+/* Background ambience */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    background:
+
+    radial-gradient(
+
+    circle at center,
+
+    rgba(255,49,49,.03) 0%,
+
+    rgba(255,49,49,.015) 35%,
+
+    transparent 75%);
+
+    animation:
+    ambientBreath 14s ease-in-out infinite;
+}
+
+@keyframes ambientBreath{
+
+    0%{
+
+        opacity:.6;
+    }
+
+    50%{
+
+        opacity:1;
+    }
+
+    100%{
+
+        opacity:.6;
+    }
+}
+
+/* Film grain */
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    top:-50%;
+    left:-50%;
+
+    width:200%;
+    height:200%;
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    opacity:.025;
+
+    background-image:
+
+    radial-gradient(circle,
+    rgba(255,255,255,.18) 1px,
+    transparent 1px),
+
+    radial-gradient(circle,
+    rgba(255,255,255,.08) 1px,
+    transparent 1px),
+
+    radial-gradient(circle,
+    rgba(255,49,49,.08) .7px,
+    transparent .7px);
+
+    background-size:
+
+    140px 140px,
+
+    90px 90px,
+
+    220px 220px;
+
+    animation:
+
+    grainFloat 80s linear infinite,
+
+    grainPulse 12s ease-in-out infinite;
+}
+
+@keyframes grainFloat{
+
+    from{
+
+        transform:
+        rotate(0deg)
+        translate(0,0);
+    }
+
+    to{
+
+        transform:
+        rotate(360deg)
+        translate(20px,20px);
+    }
+}
+
+@keyframes grainPulse{
+
+    0%{
+        opacity:.02;
+    }
+
+    50%{
+        opacity:.04;
+    }
+
+    100%{
+        opacity:.02;
+    }
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .page::before{
+
+        width:420px;
+        height:420px;
+    }
+
+    .hero::before,
+    .hero::after{
+
+        width:120px;
+    }
+
+    .music-icons a:hover{
+
+        transform:
+        scale(1.03);
+    }
+}
