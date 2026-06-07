@@ -43,3 +43,91 @@ document.addEventListener("DOMContentLoaded",()=>{
     }
 
 });
+/* ================================= */
+/* FLOATING RUNES                    */
+/* ================================= */
+
+const runeSymbols=[
+
+"☽",
+"☾",
+"✦",
+"✧",
+"✶",
+"ᚠ",
+"ᛉ",
+"ᛟ"
+
+];
+
+const runeContainer=
+document.getElementById(
+"rune-container"
+);
+
+for(let i=0;i<18;i++){
+
+    let rune=
+    document.createElement(
+    "div"
+    );
+
+    rune.className=
+    "rune";
+
+    rune.innerHTML=
+
+    runeSymbols[
+    Math.floor(
+    Math.random()*
+    runeSymbols.length
+    )];
+
+    rune.style.left=
+    Math.random()*100+
+    "vw";
+
+    rune.style.animationDuration=
+
+    20+
+    Math.random()*25+
+    "s";
+
+    rune.style.fontSize=
+
+    20+
+    Math.random()*30+
+    "px";
+
+    runeContainer
+    .appendChild(
+    rune
+    );
+
+}
+
+/* ================================= */
+/* CURSOR LIGHT                      */
+/* ================================= */
+
+const cursorLight=
+
+document.getElementById(
+"cursor-light"
+);
+
+document.addEventListener(
+
+"mousemove",
+
+function(e){
+
+    cursorLight.style.left=
+    e.clientX+"px";
+
+    cursorLight.style.top=
+    e.clientY+"px";
+
+}
+
+);
