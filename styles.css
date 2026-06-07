@@ -1568,3 +1568,35 @@ body::before{
         scale(1.08);
     }
 }
+/* ===================================== */
+/* REMOVE WHITE FLASH BETWEEN TABS       */
+/* ===================================== */
+
+html,
+body{
+    background:#181318 !important;
+}
+
+/* Keep page transitions from exposing white */
+
+.page{
+    background:transparent;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+}
+
+/* Make fade cleaner */
+
+/* Black mist stays behind everything */
+
+body::before{
+
+    z-index:-2 !important;
+}
+
+/* Film grain above mist but below content */
+
+body::after{
+
+    z-index:-1 !important;
+}
