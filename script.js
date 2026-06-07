@@ -217,3 +217,79 @@ function(e){
     ${y*40}px)`;
 
 });
+/* ===================================== */
+/* ENERGY VEINS                          */
+/* ===================================== */
+
+const canvas=
+
+document.getElementById(
+"energy-field"
+);
+
+const ctx=
+
+canvas.getContext("2d");
+
+canvas.width=
+window.innerWidth;
+
+canvas.height=
+window.innerHeight;
+
+function vein(){
+
+    ctx.clearRect(
+
+    0,
+    0,
+
+    canvas.width,
+
+    canvas.height
+
+    );
+
+    let x=
+    Math.random()*
+    canvas.width;
+
+    let y=
+    Math.random()*
+    canvas.height;
+
+    ctx.beginPath();
+
+    ctx.moveTo(x,y);
+
+    for(let i=0;i<12;i++){
+
+        x+=
+        Math.random()*80
+        -40;
+
+        y+=
+        Math.random()*80
+        -40;
+
+        ctx.lineTo(
+        x,
+        y
+        );
+
+    }
+
+    ctx.strokeStyle=
+
+    "rgba(255,49,49,.18)";
+
+    ctx.lineWidth=2;
+
+    ctx.stroke();
+
+}
+
+setInterval(
+vein,
+2200
+);
