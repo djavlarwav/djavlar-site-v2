@@ -1377,21 +1377,27 @@ body::after{
     overflow:hidden;
 }
 
+#about,
+#music,
+#services{
+    position:relative;
+}
+
 #about::before,
 #music::before,
 #services::before{
 
     content:"";
 
-    position:absolute;
+    position:fixed;
 
     left:50%;
-    top:50%;
+    top:52%;
 
     transform:translate(-50%,-50%);
 
-    width:520px;
-    height:520px;
+    width:470px;
+    height:470px;
 
     background-image:url("C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png");
     background-repeat:no-repeat;
@@ -1416,6 +1422,16 @@ body::after{
     contrast(122%);
 }
 
+@media(max-width:768px){
+
+    #about::before,
+    #music::before,
+    #services::before{
+
+        width:250px;
+        height:250px;
+    }
+}
 #home::before,
 #merch::before{
     display:none !important;
