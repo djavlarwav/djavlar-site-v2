@@ -8,9 +8,19 @@
 <link href="https://fonts.cdnfonts.com/css/itc-benguiat" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="styles.css">
+<style>
+    /* fade-out keyframe lives here so JS can trigger it dynamically */
+    @keyframes pageFadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to   { opacity: 0; transform: translateY(-8px); }
+    }
+</style>
 </head>
 
 <body>
+
+<!-- GRAIN OVERLAY -->
+<div class="grain" aria-hidden="true"></div>
 
 <nav>
     <button class="nav-btn active" onclick="showPage('home',this)">HOME</button>
@@ -25,9 +35,14 @@
 <section id="home" class="page active">
     <div class="hero">
         <img class="hero-logo" src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png" alt="DJAVLAR LOGO">
+
+        <span class="hero-line top"></span>
+
         <h1>DJAVLAR<br>PRODUCTIONS</h1>
         <h2>EST. 2022</h2>
         <p class="motto">MASTERING THE ART OF SOUND</p>
+
+        <span class="hero-line bottom"></span>
     </div>
 </section>
 
