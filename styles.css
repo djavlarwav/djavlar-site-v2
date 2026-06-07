@@ -189,8 +189,8 @@ nav {
 .music-icons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 35px;
-    margin-top: 30px;
+    gap: 50px 35px;
+    margin-top: 40px;
 }
 
 .music-icons a {
@@ -198,12 +198,32 @@ nav {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
     align-items: center;
-    transition: color 0.2s;
+    transition: opacity 0.2s;
 }
 
-.music-icons a:hover { color: var(--red); }
+.music-icons a:hover { opacity: 0.75; }
+
+.music-icons i {
+    font-size: 3rem;
+}
+
+.music-icons span {
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+/* Brand colors */
+.music-icons a.spotify  i { color: #1DB954; }
+.music-icons a.apple    i { color: #fc3c44; }
+.music-icons a.bandcamp i { color: #1da0c3; }
+.music-icons a.youtube  i { color: #FF0000; }
+
+.music-icons a.spotify:hover,
+.music-icons a.apple:hover,
+.music-icons a.bandcamp:hover,
+.music-icons a.youtube:hover { opacity: 0.75; }
 
 /* ── SERVICES ── */
 .services-list {
@@ -217,6 +237,8 @@ nav {
 .services-list li {
     position: relative;
     padding-bottom: 18px;
+    display: inline-block;
+    width: 100%;
 }
 
 .services-list li::after {
@@ -225,7 +247,7 @@ nav {
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 170px;
+    width: var(--line-w, 120px);
     height: 2px;
     background: var(--red);
 }
@@ -293,7 +315,7 @@ nav {
 }
 
 .footer-line {
-    width: 60px;
+    width: min(420px, 80vw);
     height: 2px;
     background: var(--red);
     margin: 0 auto 20px;
