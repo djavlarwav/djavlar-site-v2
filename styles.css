@@ -1600,3 +1600,35 @@ body::after{
 
     z-index:-1 !important;
 }
+/* ===================================== */
+/* REMOVE WHITE FLASH ON PAGE CHANGES    */
+/* ===================================== */
+
+html,
+body{
+    background:#241b22 !important;
+}
+
+/* Disable fade animation */
+
+.page.active{
+    animation:none !important;
+}
+
+/* Prevent any transparent flash */
+
+.page{
+    background:transparent;
+}
+
+/* Keep mist behind everything */
+
+body::before{
+    z-index:-999 !important;
+}
+
+/* Keep film grain above mist */
+
+body::after{
+    z-index:9999;
+}
