@@ -476,7 +476,7 @@ nav{
 /* Smooth scrolling */
 
 html{
-    scroll-behavior:smooth;
+    scroll-behavior:auto;
 }
 
 /* Fade between pages */
@@ -1631,4 +1631,7 @@ body::before{
 
 body::after{
     z-index:9999;
+}
+.page{
+    min-height:100vh;
 }
