@@ -100,19 +100,25 @@ nav{
     align-items:center;
 }
 
-.hero-logo{
-    width:170px;
-    margin-bottom:30px;
-    opacity:0;
-    animation:introLogo 2s ease forwards,pulseSigil 5s ease-in-out infinite;
-}
-
+.hero-logo,
 .page-logo{
-    width:110px;
-    margin:20px auto 35px;
-    display:block;
-}
 
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(6317%)
+    hue-rotate(355deg)
+    brightness(112%)
+    contrast(122%)
+
+    drop-shadow(0 0 8px rgba(255,49,49,.55))
+    drop-shadow(0 0 22px rgba(255,49,49,.25));
+
+    animation:
+    pulseSigil 5s ease-in-out infinite;
+}
 .hero h1{
     color:var(--red);
     font-size:clamp(3rem,8vw,5.5rem);
