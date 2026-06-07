@@ -2164,3 +2164,10 @@ nav{justify-content:center!important;display:flex!important;flex-wrap:wrap!impor
 html,body{overflow-x:hidden!important;background:#241b22!important}
 body::before{z-index:-999!important}
 body::after{z-index:-1!important}
+/* CLEAN BUILD OVERRIDES */
+nav{justify-content:center!important;display:flex!important;flex-wrap:wrap!important}
+.page{min-height:100vh;background:transparent}
+.page.active{animation:none!important}
+html,body{overflow-x:hidden!important;background:#241b22!important}
+body::before{z-index:-999!important}
+body::after{z-index:-1!important}
