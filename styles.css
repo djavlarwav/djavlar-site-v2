@@ -1441,4 +1441,10 @@ body::after{
         width:420px;
         height:420px;
     }
+}/* ABOUT PAGE SIGIL ADJUSTMENT */
+
+#about::before{
+
+    top:56% !important;
+
 }
