@@ -131,3 +131,46 @@ function(e){
 }
 
 );
+/* ===================================== */
+/* PARALLAX                              */
+/* ===================================== */
+
+document.addEventListener(
+
+"mousemove",
+
+function(e){
+
+    let x=
+
+    (e.clientX/
+    window.innerWidth-.5);
+
+    let y=
+
+    (e.clientY/
+    window.innerHeight-.5);
+
+    document
+    .getElementById(
+    "layer1"
+    )
+
+    .style.transform=
+
+    `translate(
+    ${x*20}px,
+    ${y*20}px)`;
+
+    document
+    .getElementById(
+    "layer2"
+    )
+
+    .style.transform=
+
+    `translate(
+    ${x*40}px,
+    ${y*40}px)`;
+
+});
