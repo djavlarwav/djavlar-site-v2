@@ -31,4 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("home").classList.add("active");
     const homeButton = document.querySelector(".nav-btn");
     if (homeButton) homeButton.classList.add("active");
+
+    // Size service underlines to match each word's width
+    document.querySelectorAll(".services-list li").forEach(li => {
+        const width = li.scrollWidth;
+        li.style.setProperty("--line-w", width + "px");
+    });
 });
