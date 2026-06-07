@@ -1950,3 +1950,36 @@ nav{
     }
 
 }
+/* ===================================== */
+/* HARD NAVBAR CENTER FIX                */
+/* ===================================== */
+
+nav{
+
+    position:sticky;
+    top:0;
+
+    width:100%;
+
+    display:flex !important;
+
+    justify-content:center !important;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    padding:20px 0 !important;
+
+    margin:0 auto;
+
+    left:0;
+    right:0;
+}
+
+.nav-btn{
+
+    flex:0 0 auto;
+}
