@@ -870,36 +870,6 @@ nav{
     rgba(255,49,49,.2);
 }
 
-/* Background ambience */
-
-body::before{
-
-    content:"";
-
-    position:fixed;
-
-    inset:0;
-
-    pointer-events:none;
-
-    z-index:-1;
-
-    background:
-
-    radial-gradient(
-
-    circle at center,
-
-    rgba(255,49,49,.03) 0%,
-
-    rgba(255,49,49,.015) 35%,
-
-    transparent 75%);
-
-    animation:
-    ambientBreath 14s ease-in-out infinite;
-}
-
 @keyframes ambientBreath{
 
     0%{
@@ -1559,13 +1529,13 @@ body::before{
 
     z-index:-1;
 
-    opacity:.18;
+    opacity:.28;
 
     background:
 
     radial-gradient(
     circle at 20% 30%,
-    rgba(0,0,0,.35) 0%,
+    rgba(0,0,0,.5)
     transparent 45%),
 
     radial-gradient(
