@@ -7,13 +7,18 @@
     --text: #f2f2f2;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+    /* Prevent font size inflation on mobile */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
 
 html, body {
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
-    background: var(--bg);
 }
 
 body {
@@ -21,8 +26,11 @@ body {
     font-weight: 700;
     color: var(--text);
     background: radial-gradient(circle at top, #2f222b 0%, #241b22 45%, #181318 100%);
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Prevent tap highlight flash on mobile */
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ── GRAIN OVERLAY ── */
@@ -39,21 +47,28 @@ body {
     animation: grainShift 0.08s steps(1) infinite;
 }
 
-@keyframes grainShift {
-    0%   { transform: translate(0, 0); }
-    10%  { transform: translate(-3%, -4%); }
-    20%  { transform: translate(4%, 2%); }
-    30%  { transform: translate(-2%, 5%); }
-    40%  { transform: translate(5%, -3%); }
-    50%  { transform: translate(-4%, 1%); }
-    60%  { transform: translate(2%, -5%); }
-    70%  { transform: translate(-5%, 3%); }
-    80%  { transform: translate(3%, 4%); }
-    90%  { transform: translate(-1%, -2%); }
-    100% { transform: translate(4%, -4%); }
+/* Reduce grain motion on devices that prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .grain { animation: none; }
 }
 
-/* ── NAV ── */
+@keyframes grainShift {
+    0%   { transform: translate(0,    0);    }
+    10%  { transform: translate(-3%,  -4%);  }
+    20%  { transform: translate(4%,   2%);   }
+    30%  { transform: translate(-2%,  5%);   }
+    40%  { transform: translate(5%,   -3%);  }
+    50%  { transform: translate(-4%,  1%);   }
+    60%  { transform: translate(2%,   -5%);  }
+    70%  { transform: translate(-5%,  3%);   }
+    80%  { transform: translate(3%,   4%);   }
+    90%  { transform: translate(-1%,  -2%);  }
+    100% { transform: translate(4%,   -4%);  }
+}
+
+/* ════════════════════════════════════
+   NAV
+════════════════════════════════════ */
 nav {
     position: sticky;
     top: 0;
@@ -61,10 +76,11 @@ nav {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 18px;
-    padding: 20px 12px;
-    background: rgba(36, 27, 34, 0.95);
-    backdrop-filter: blur(6px);
+    gap: 4px 14px;
+    padding: 14px 16px;
+    background: rgba(36, 27, 34, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 1000;
 }
 
@@ -72,52 +88,60 @@ nav {
     background: none;
     border: none;
     color: #fff;
-    font: 700 .95rem 'ITC Benguiat', serif;
-    letter-spacing: 1px;
+    font: 700 0.85rem 'ITC Benguiat', serif;
+    letter-spacing: 1.5px;
     cursor: pointer;
-    padding: 6px 0;
+    /* Minimum 44px touch target (Apple HIG) */
+    min-height: 44px;
+    padding: 0 8px;
     transition: color 0.2s;
 }
 
 .nav-btn:hover,
-.nav-btn.active {
-    color: var(--red);
-}
+.nav-btn.active { color: var(--red); }
 
-/* ── PAGES ── */
+/* ════════════════════════════════════
+   PAGES
+════════════════════════════════════ */
 .page {
     display: none;
     opacity: 0;
     width: min(1000px, 92vw);
-    margin: auto;
-    min-height: 100vh;
-    padding: 30px 20px 80px;
+    margin: 0 auto;
+    min-height: calc(100vh - 73px); /* subtract nav height */
+    padding: 36px 20px 80px;
     text-align: center;
 }
 
 .page.active {
     display: block;
-    animation: pageFadeIn 0.5s ease forwards;
+    animation: pageFadeIn 0.45s ease forwards;
 }
 
 @keyframes pageFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── HOME ── */
+@keyframes pageFadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ════════════════════════════════════
+   HOME
+════════════════════════════════════ */
 .hero {
-    min-height: 70vh;
+    min-height: calc(100vh - 73px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0;
 }
 
 .hero-logo {
-    width: 170px;
-    margin-bottom: 30px;
+    width: clamp(110px, 22vw, 170px);
+    margin-bottom: clamp(20px, 4vw, 30px);
     filter:
         brightness(0) saturate(100%)
         invert(15%) sepia(98%) saturate(6317%)
@@ -127,14 +151,14 @@ nav {
     animation: rotateSigil 100s linear infinite;
 }
 
-/* ── RED LINES (hero) ── */
+/* Hero red lines */
 .hero-line {
     display: block;
     height: 2px;
     width: 0;
     background: var(--red);
     box-shadow: 0 0 8px rgba(255,49,49,.6);
-    margin: 18px auto;
+    margin: clamp(14px, 3vw, 20px) auto;
 }
 
 .hero-line.top    { animation: drawLine 0.9s ease forwards 0.2s; }
@@ -142,33 +166,37 @@ nav {
 
 @keyframes drawLine {
     from { width: 0; }
-    to   { width: min(520px, 80vw); }
+    to   { width: min(520px, 78vw); }
 }
 
-/* ── HERO TEXT ── */
 .hero h1 {
     color: var(--red);
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    line-height: .9;
+    font-size: clamp(2.6rem, 9vw, 5.5rem);
+    line-height: 0.9;
     margin: 0;
 }
 
 .hero h2 {
     color: var(--red);
-    letter-spacing: 6px;
-    margin-bottom: 6px;
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
+    letter-spacing: clamp(3px, 1.5vw, 6px);
+    margin-bottom: 4px;
+    margin-top: 10px;
 }
 
 .motto {
     color: var(--red);
-    letter-spacing: 6px;
-    margin-top: 6px;
+    font-size: clamp(0.6rem, 2vw, 0.9rem);
+    letter-spacing: clamp(2px, 1.2vw, 6px);
+    margin-top: 4px;
 }
 
-/* ── PAGE LOGO ── */
+/* ════════════════════════════════════
+   PAGE LOGO (shared across pages)
+════════════════════════════════════ */
 .page-logo {
-    width: 110px;
-    margin: 20px auto 35px;
+    width: clamp(70px, 14vw, 110px);
+    margin: 16px auto 28px;
     display: block;
     filter:
         brightness(0) saturate(100%)
@@ -178,19 +206,27 @@ nav {
     animation: rotateSigil 100s linear infinite;
 }
 
-/* ── ABOUT ── */
+/* ════════════════════════════════════
+   ABOUT
+════════════════════════════════════ */
 .about-text {
-    max-width: 800px;
-    margin: auto;
+    max-width: 700px;
+    margin: 0 auto;
     line-height: 2;
+    font-size: clamp(0.8rem, 2.2vw, 1rem);
 }
 
-/* ── MUSIC ── */
+/* ════════════════════════════════════
+   MUSIC
+════════════════════════════════════ */
 .music-icons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 50px 35px;
-    margin-top: 40px;
+    gap: clamp(30px, 6vw, 50px) clamp(20px, 4vw, 35px);
+    margin-top: clamp(24px, 5vw, 40px);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .music-icons a {
@@ -198,19 +234,20 @@ nav {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
+    /* Ensure comfortable touch area */
+    padding: 12px 8px;
     transition: opacity 0.2s;
 }
 
-.music-icons a:hover { opacity: 0.75; }
+.music-icons a:hover,
+.music-icons a:focus-visible { opacity: 0.75; outline: none; }
 
-.music-icons i {
-    font-size: 3rem;
-}
+.music-icons i { font-size: clamp(2rem, 6vw, 3rem); }
 
 .music-icons span {
-    font-size: 1rem;
+    font-size: clamp(0.75rem, 2vw, 1rem);
     letter-spacing: 2px;
 }
 
@@ -220,25 +257,24 @@ nav {
 .music-icons a.bandcamp i { color: #1da0c3; }
 .music-icons a.youtube  i { color: #FF0000; }
 
-.music-icons a.spotify:hover,
-.music-icons a.apple:hover,
-.music-icons a.bandcamp:hover,
-.music-icons a.youtube:hover { opacity: 0.75; }
-
-/* ── SERVICES ── */
+/* ════════════════════════════════════
+   SERVICES
+════════════════════════════════════ */
 .services-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    margin-bottom: 50px;
+    gap: clamp(22px, 4vw, 30px);
+    margin-bottom: clamp(36px, 6vw, 50px);
 }
 
 .services-list li {
     position: relative;
-    padding-bottom: 18px;
+    padding-bottom: 16px;
     display: inline-block;
     width: 100%;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    letter-spacing: 1px;
 }
 
 .services-list li::after {
@@ -254,27 +290,35 @@ nav {
 }
 
 .contact-copy {
-    max-width: 650px;
-    margin: 0 auto 30px;
-    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto clamp(24px, 4vw, 30px);
+    line-height: 1.8;
+    font-size: clamp(0.8rem, 2.2vw, 1rem);
 }
 
 .email-btn {
     text-decoration: none;
     color: #fff;
     border: 2px solid var(--red);
-    padding: 12px 28px;
+    padding: clamp(12px, 2.5vw, 14px) clamp(22px, 5vw, 30px);
     letter-spacing: 2px;
-    transition: background 0.2s, color 0.2s;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    transition: background 0.2s;
     display: inline-block;
+    /* Minimum touch target */
+    min-height: 48px;
+    line-height: 1.6;
 }
 
-.email-btn:hover {
+.email-btn:hover,
+.email-btn:focus-visible {
     background: var(--red);
-    color: #fff;
+    outline: none;
 }
 
-/* ── MERCH ── */
+/* ════════════════════════════════════
+   MERCH
+════════════════════════════════════ */
 .vault {
     position: relative;
     display: flex;
@@ -287,10 +331,13 @@ nav {
     text-decoration: none;
     color: #fff;
     border: 2px solid var(--red);
-    padding: 18px 40px;
+    padding: clamp(14px, 3vw, 18px) clamp(28px, 6vw, 40px);
     letter-spacing: 3px;
-    font-size: 1.1rem;
-    transition: background 0.2s, color 0.2s;
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    transition: background 0.2s;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .vault-button:hover { background: var(--red); }
@@ -298,20 +345,23 @@ nav {
 .star {
     position: absolute;
     color: var(--red);
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 3vw, 1.4rem);
     opacity: 0.6;
+    pointer-events: none;
 }
 
-.star1 { top: 20%; left: 15%; }
-.star2 { top: 60%; left: 10%; }
-.star3 { top: 15%; right: 15%; }
-.star4 { top: 65%; right: 12%; }
+.star1 { top: 20%; left: 10%; }
+.star2 { top: 60%; left: 8%;  }
+.star3 { top: 15%; right: 10%; }
+.star4 { top: 65%; right: 8%;  }
 .star5 { bottom: 15%; left: 50%; }
 
-/* ── FOOTER ── */
+/* ════════════════════════════════════
+   FOOTER
+════════════════════════════════════ */
 .site-footer {
-    margin-top: 90px;
-    padding: 35px 20px 50px;
+    margin-top: clamp(60px, 10vw, 90px);
+    padding: 30px 20px 50px;
     text-align: center;
 }
 
@@ -319,31 +369,61 @@ nav {
     width: min(340px, 80vw);
     height: 2px;
     background: var(--red);
-    margin: 0 auto 20px;
+    margin: 0 auto 18px;
 }
 
 .footer-brand {
     color: var(--red);
     letter-spacing: 3px;
-    margin-bottom: 12px;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    margin-bottom: 10px;
 }
 
 .footer-copy {
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 1.8vw, 0.75rem);
     opacity: 0.5;
-    line-height: 1.8;
+    line-height: 1.9;
 }
 
-/* ── ANIMATIONS ── */
+/* ════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════ */
 @keyframes rotateSigil {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-    .music-icons { grid-template-columns: 1fr; }
-    .hero-logo { width: 130px; }
-    .page-logo { width: 90px; }
-    .nav-btn { font-size: .8rem; }
+@media (prefers-reduced-motion: reduce) {
+    .hero-logo, .page-logo { animation: none; }
+    .hero-line.top, .hero-line.bottom { animation: none; width: min(520px, 78vw); }
+    .page.active { animation: none; opacity: 1; }
+}
+
+/* ════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+════════════════════════════════════ */
+
+/* ── Small phones (≤ 390px) ── */
+@media (max-width: 390px) {
+    nav { gap: 2px 10px; padding: 10px 8px; }
+    .nav-btn { font-size: 0.72rem; letter-spacing: 0.5px; min-height: 40px; }
+    .hero h1 { font-size: 2.4rem; }
+    .music-icons { grid-template-columns: 1fr; max-width: 220px; }
+}
+
+/* ── Tablets (768px – 1024px) ── */
+@media (min-width: 768px) {
+    nav { gap: 6px 28px; padding: 18px 24px; }
+    .nav-btn { font-size: 0.95rem; }
+    .music-icons { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
+    .page { padding: 48px 32px 100px; }
+}
+
+/* ── Desktop (≥ 1024px) ── */
+@media (min-width: 1024px) {
+    nav { gap: 8px 40px; padding: 22px 32px; }
+    .nav-btn { font-size: 1rem; }
+    .music-icons { grid-template-columns: repeat(4, 1fr); max-width: 800px; }
+    .page { padding: 60px 40px 120px; }
+    .hero-logo { width: 170px; }
 }
