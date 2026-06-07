@@ -1630,3 +1630,86 @@ body::after{
 .page{
     min-height:100vh;
 }
+/* ================================= */
+/* ARCANE FLOATING RUNES             */
+/* ================================= */
+
+#rune-container{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:-500;
+}
+
+.rune{
+
+    position:absolute;
+
+    color:rgba(255,49,49,.08);
+
+    font-size:28px;
+
+    user-select:none;
+
+    animation:
+    runeFloat linear infinite;
+}
+
+@keyframes runeFloat{
+
+    from{
+
+        transform:
+        translateY(110vh)
+        rotate(0deg);
+
+    }
+
+    to{
+
+        transform:
+        translateY(-20vh)
+        rotate(360deg);
+
+    }
+
+}
+
+/* ================================= */
+/* CURSOR LIGHT                      */
+/* ================================= */
+
+#cursor-light{
+
+    position:fixed;
+
+    width:350px;
+    height:350px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    transform:
+    translate(-50%,-50%);
+
+    background:
+
+    radial-gradient(
+
+    circle,
+
+    rgba(255,49,49,.08),
+
+    transparent 70%
+
+    );
+
+    z-index:-400;
+}
