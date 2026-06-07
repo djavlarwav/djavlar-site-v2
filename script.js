@@ -33,8 +33,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (homeButton) homeButton.classList.add("active");
 
     // Size service underlines to match each word's width
-    document.querySelectorAll(".services-list li").forEach(li => {
-        const width = li.scrollWidth;
-        li.style.setProperty("--line-w", width + "px");
-    });
+    // Can't measure hidden elements directly — use canvas text measurement instead
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Match the font used on the page (ITC Benguiat bold)
+    // Fall back gracefully if font isn't loaded yet
+    function measureAndSet() {
+        ctx.font = "700 1rem 'ITC Benguiat', serif";
+        document.querySelectorAll(".services-list li").forEach(li => {
+            const w = ctx.measureText(li.textContent.trim()).width;
+            li.style.setProperty("--line-w", Math.ceil(w) + "px");
+        });
+    }
+
+    // Run after fonts load for accurate measurement
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(measureAndSet);
+    } else {
+        measureAndSet();
+    }
 });
