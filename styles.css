@@ -194,11 +194,6 @@ nav{
     text-align:center;
 }
 
-#rune-container,#cursor-light,#energy-field,.parallax-layer{
-    position:fixed;
-    pointer-events:none;
-}
-
 #home::before,
 #about::before,
 #music::before,
