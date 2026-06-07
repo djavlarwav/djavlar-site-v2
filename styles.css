@@ -2079,3 +2079,79 @@ body{
     width:100%;
     overflow-x:hidden !important;
 }
+
+
+
+
+/* ===================================== */
+/* DJAVLAR CHATGPT CLEAN OVERRIDES       */
+/* These rules intentionally override    */
+/* older duplicate blocks above.         */
+/* ===================================== */
+
+html,
+body{
+    overflow-x:hidden !important;
+    background:#241b22 !important;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    width:100%;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    flex-wrap:wrap;
+    gap:18px;
+    padding:20px 12px !important;
+    margin:0 auto;
+    background:#241b22;
+    z-index:1000;
+}
+
+.nav-btn{
+    flex:0 0 auto;
+    white-space:nowrap;
+}
+
+.page{
+    min-height:100vh;
+    background:transparent;
+}
+
+.page.active{
+    animation:none !important;
+}
+
+body::before{
+    z-index:-999 !important;
+}
+
+body::after{
+    z-index:-1 !important;
+}
+
+#home::before,
+#about::before,
+#music::before,
+#services::before,
+#merch::before{
+    content:none !important;
+    display:none !important;
+    background:none !important;
+    opacity:0 !important;
+    animation:none !important;
+}
+
+#about,
+#music,
+#services{
+    overflow:visible !important;
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(255,49,49,.025) 0%,
+        rgba(255,49,49,.012) 35%,
+        transparent 75%);
+}
