@@ -100,8 +100,11 @@ nav{
     align-items:center;
 }
 
-.hero-logo,
-.page-logo{
+.hero-logo{
+
+    width:170px;
+
+    margin-bottom:30px;
 
     filter:
     brightness(0)
@@ -113,11 +116,35 @@ nav{
     brightness(112%)
     contrast(122%)
 
-    drop-shadow(0 0 8px rgba(255,49,49,.55))
-    drop-shadow(0 0 22px rgba(255,49,49,.25));
+    drop-shadow(0 0 10px rgba(255,49,49,.7))
+    drop-shadow(0 0 30px rgba(255,49,49,.35));
 
     animation:
+    rotateSigil 100s linear infinite,
     pulseSigil 5s ease-in-out infinite;
+}
+.page-logo{
+
+    width:110px;
+
+    margin:20px auto 35px;
+
+    display:block;
+
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(6317%)
+    hue-rotate(355deg)
+    brightness(112%)
+    contrast(122%)
+
+    drop-shadow(0 0 8px rgba(255,49,49,.45));
+
+    animation:
+    rotateSigil 100s linear infinite;
 }
 .hero h1{
     color:var(--red);
