@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="styles.css">
 <style>
-    /* fade-out keyframe lives here so JS can trigger it dynamically */
     @keyframes pageFadeOut {
         from { opacity: 1; transform: translateY(0); }
         to   { opacity: 0; transform: translateY(-8px); }
@@ -19,8 +18,13 @@
 
 <body>
 
-<!-- GRAIN OVERLAY -->
 <div class="grain" aria-hidden="true"></div>
+<canvas id="embers" aria-hidden="true"></canvas>
+
+<div class="redirect-overlay" id="redirectOverlay">
+    <div class="redirect-text">ENTERING THE TOMB</div>
+    <div class="redirect-sub">DJAVLAR PRODUCTIONS · MERCH</div>
+</div>
 
 <nav>
     <button class="nav-btn active" onclick="showPage('home',this)">HOME</button>
@@ -35,13 +39,10 @@
 <section id="home" class="page active">
     <div class="hero">
         <img class="hero-logo" src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png" alt="DJAVLAR LOGO">
-
         <span class="hero-line top"></span>
-
         <h1>DJAVLAR<br>PRODUCTIONS</h1>
         <h2>EST. 2022</h2>
         <p class="motto">MASTERING THE ART OF SOUND</p>
-
         <span class="hero-line bottom"></span>
     </div>
 </section>
@@ -122,20 +123,470 @@
         Have a project in mind? Send a message with the services you require,
         and I'll get back to you as soon as possible. Let's create something amazing together.
     </p>
-    <a class="email-btn" href="mailto:DjavlarProductions@gmail.com">✉ CONTACT FOR QUOTE</a>
+    <a class="email-btn" href="mailto:DjavlarProductions@gmail.com">&#x2709; CONTACT FOR QUOTE</a>
 </section>
 
 
 <!-- MERCH -->
-<section id="merch" class="page">
-    <img class="page-logo" src="C2D2FB54-EE9D-402C-95D9-ADA4100A4DE2.png" alt="logo">
-    <div class="vault">
-        <span class="star star1">✦</span>
-        <span class="star star2">✧</span>
-        <span class="star star3">✶</span>
-        <span class="star star4">✦</span>
-        <span class="star star5">✧</span>
-        <a href="https://djavlarwav.printful.me" target="_blank" class="vault-button">MERCH VAULT</a>
+<section id="merch" class="page merch-page-section">
+    <div class="hell-bg" aria-hidden="true"></div>
+    <div class="ticker-wrap">
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+    <div class="merch-gate-wrap">
+        <div class="gate-hint">&#x2193; &nbsp; CLICK TO ENTER &nbsp; &#x2193;</div>
+<div class="gate-scene" id="gateScene"
+         role="link" tabindex="0"
+         aria-label="Enter the Gate — Djavlar Productions Merch">
+
+        <div class="gate-glow"></div>
+
+        <!--
+          THE GATE SVG
+          viewBox 0 0 520 760
+          Structure (top to bottom):
+            - Cornice / entablature (top cap)
+            - THREE SHADES (3 standing figures crowning the gate)
+            - Tympanum (arched relief panel, The Thinker sits at center)
+            - Left pilaster | door frame | Right pilaster
+            - Two tall door panels
+            - Base / threshold
+          All proportions reference Rodin's actual sculpture.
+        -->
+        <svg class="gate-svg" viewBox="0 0 520 760"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+                <!-- Primary metallic gradient: dark bronze/iron -->
+                <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%"   stop-color="#6a5432"/>
+                    <stop offset="20%"  stop-color="#2e2214"/>
+                    <stop offset="45%"  stop-color="#1a1208"/>
+                    <stop offset="65%"  stop-color="#3a2c1a"/>
+                    <stop offset="100%" stop-color="#100c08"/>
+                </linearGradient>
+                <!-- Vertical metal for pillars -->
+                <linearGradient id="pillar" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#0e0a06"/>
+                    <stop offset="18%"  stop-color="#3a2c1a"/>
+                    <stop offset="38%"  stop-color="#6a5432"/>
+                    <stop offset="55%"  stop-color="#4a3a22"/>
+                    <stop offset="72%"  stop-color="#2a1e10"/>
+                    <stop offset="88%"  stop-color="#4a3828"/>
+                    <stop offset="100%" stop-color="#0e0a06"/>
+                </linearGradient>
+                <!-- Tympanum / door panel fill -->
+                <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#1a1208"/>
+                    <stop offset="40%"  stop-color="#120e06"/>
+                    <stop offset="100%" stop-color="#0a0806"/>
+                </linearGradient>
+                <!-- Gold accent -->
+                <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#d4a845"/>
+                    <stop offset="50%"  stop-color="#8a6020"/>
+                    <stop offset="100%" stop-color="#6a4818"/>
+                </linearGradient>
+                <!-- Hell glow for cracks/base -->
+                <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="softglow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="8" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <!-- Emboss-like shadow for relief depth -->
+                <filter id="relief">
+                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="1.5" flood-color="rgba(0,0,0,0.7)"/>
+                    <feDropShadow dx="-0.5" dy="-0.5" stdDeviation="1" flood-color="rgba(180,130,60,0.2)"/>
+                </filter>
+            </defs>
+
+            <!-- ═══════════════════════════════
+                 CORNICE / TOP CAP
+            ═══════════════════════════════ -->
+            <!-- Main cornice block -->
+            <rect x="0" y="72" width="520" height="28" fill="url(#metal)" rx="1"/>
+            <!-- Cornice top highlight -->
+            <rect x="0" y="72" width="520" height="3" fill="rgba(200,160,70,.35)"/>
+            <!-- Cornice underside shadow -->
+            <rect x="0" y="97" width="520" height="3" fill="rgba(0,0,0,.5)"/>
+            <!-- Cornice moulding details -->
+            <rect x="8"  y="76" width="504" height="1" fill="rgba(180,140,55,.2)"/>
+            <rect x="8"  y="86" width="504" height="1" fill="rgba(180,140,55,.15)"/>
+            <rect x="8"  y="93" width="504" height="1" fill="rgba(180,140,55,.12)"/>
+            <!-- Corner bosses -->
+            <rect x="0"   y="72" width="18" height="28" fill="url(#pillar)" rx="1"/>
+            <rect x="502" y="72" width="18" height="28" fill="url(#pillar)" rx="1"/>
+
+            <!-- ═══════════════════════════════
+                 THREE SHADES — crowning figures
+                 Three identical male figures with arms raised,
+                 pointing downward — Rodin's iconic trio
+            ═══════════════════════════════ -->
+            <!-- Figure group platform/plinth they stand on -->
+            <rect x="158" y="58" width="204" height="16" fill="url(#metal)" rx="1"/>
+            <rect x="158" y="58" width="204" height="2"  fill="rgba(200,160,60,.3)"/>
+
+            <!-- Shade 1 (left) -->
+            <g transform="translate(188,0)" filter="url(#relief)" opacity=".82">
+                <circle cx="0" cy="22" r="8" fill="url(#metal)" stroke="rgba(160,120,50,.3)" stroke-width=".5"/>
+                <path d="M0,30 Q-2,42 -3,56" stroke="rgba(180,140,55,.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <!-- left arm raised + pointing down -->
+                <path d="M-2,36 Q-14,30 -22,38 Q-26,42 -24,48" stroke="rgba(180,140,55,.65)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- right arm -->
+                <path d="M-1,37 Q10,32 16,36" stroke="rgba(180,140,55,.6)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <!-- legs -->
+                <path d="M-3,56 Q-6,62 -5,70" stroke="rgba(180,140,55,.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M-3,56 Q0,63 2,70" stroke="rgba(180,140,55,.5)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <!-- pointing finger -->
+                <path d="M-24,48 Q-26,54 -25,60" stroke="rgba(180,140,55,.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Shade 2 (center) -->
+            <g transform="translate(260,0)" filter="url(#relief)" opacity=".88">
+                <circle cx="0" cy="20" r="8.5" fill="url(#metal)" stroke="rgba(160,120,50,.35)" stroke-width=".5"/>
+                <path d="M0,28 Q-1,42 -2,57" stroke="rgba(180,140,55,.75)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M-1,35 Q-15,28 -24,36 Q-28,40 -27,47" stroke="rgba(180,140,55,.7)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                <path d="M0,36 Q12,30 20,34" stroke="rgba(180,140,55,.65)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M-2,57 Q-5,64 -4,72" stroke="rgba(180,140,55,.6)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                <path d="M-2,57 Q2,65 4,72" stroke="rgba(180,140,55,.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M-27,47 Q-30,54 -28,62" stroke="rgba(180,140,55,.5)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Shade 3 (right) -->
+            <g transform="translate(332,0)" filter="url(#relief)" opacity=".8">
+                <circle cx="0" cy="22" r="8" fill="url(#metal)" stroke="rgba(160,120,50,.3)" stroke-width=".5"/>
+                <path d="M0,30 Q1,43 2,57" stroke="rgba(180,140,55,.68)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <path d="M1,36 Q-10,31 -16,36" stroke="rgba(180,140,55,.6)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <path d="M1,37 Q14,30 22,38 Q26,42 24,48" stroke="rgba(180,140,55,.65)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M2,57 Q4,64 3,71" stroke="rgba(180,140,55,.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M2,57 Q-1,64 -2,71" stroke="rgba(180,140,55,.5)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <path d="M24,48 Q26,55 25,62" stroke="rgba(180,140,55,.48)" stroke-width="1" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- ═══════════════════════════════
+                 OUTER FRAME / PILASTERS
+            ═══════════════════════════════ -->
+            <!-- Left pilaster -->
+            <rect x="0" y="100" width="52" height="650" fill="url(#pillar)"/>
+            <!-- Pilaster bevel lines -->
+            <rect x="6"  y="100" width="1" height="650" fill="rgba(160,120,50,.25)"/>
+            <rect x="16" y="100" width="1" height="650" fill="rgba(100,70,28,.15)"/>
+            <rect x="36" y="100" width="1" height="650" fill="rgba(100,70,28,.12)"/>
+            <rect x="46" y="100" width="1" height="650" fill="rgba(200,150,60,.18)"/>
+            <!-- Left pilaster capital (top ornament) -->
+            <rect x="0" y="100" width="52" height="18" fill="url(#metal)"/>
+            <rect x="0" y="100" width="52" height="2"  fill="rgba(210,165,60,.4)"/>
+            <!-- Left pilaster base -->
+            <rect x="0" y="732" width="52" height="18" fill="url(#metal)"/>
+            <rect x="0" y="748" width="52" height="2"  fill="rgba(0,0,0,.5)"/>
+            <!-- Pilaster ornament circles left -->
+            <circle cx="26" cy="160" r="9"  fill="none" stroke="rgba(160,115,45,.35)" stroke-width="1.5"/>
+            <circle cx="26" cy="160" r="4"  fill="rgba(130,90,30,.3)"/>
+            <circle cx="26" cy="280" r="7"  fill="none" stroke="rgba(160,115,45,.28)" stroke-width="1.2"/>
+            <circle cx="26" cy="430" r="9"  fill="none" stroke="rgba(160,115,45,.32)" stroke-width="1.5"/>
+            <circle cx="26" cy="430" r="4"  fill="rgba(130,90,30,.25)"/>
+            <circle cx="26" cy="580" r="7"  fill="none" stroke="rgba(160,115,45,.26)" stroke-width="1.2"/>
+            <circle cx="26" cy="680" r="6"  fill="none" stroke="rgba(160,115,45,.22)" stroke-width="1"/>
+            <!-- Horizontal rule lines on left pilaster -->
+            <line x1="4" y1="200" x2="48" y2="200" stroke="rgba(160,115,45,.18)" stroke-width="1"/>
+            <line x1="4" y1="350" x2="48" y2="350" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+            <line x1="4" y1="500" x2="48" y2="500" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+            <line x1="4" y1="650" x2="48" y2="650" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+
+            <!-- Right pilaster (mirror) -->
+            <rect x="468" y="100" width="52" height="650" fill="url(#pillar)"/>
+            <rect x="465" y="100" width="1" height="650" fill="rgba(200,150,60,.18)"/>
+            <rect x="475" y="100" width="1" height="650" fill="rgba(100,70,28,.12)"/>
+            <rect x="495" y="100" width="1" height="650" fill="rgba(100,70,28,.15)"/>
+            <rect x="513" y="100" width="1" height="650" fill="rgba(160,120,50,.25)"/>
+            <rect x="468" y="100" width="52" height="18" fill="url(#metal)"/>
+            <rect x="468" y="100" width="52" height="2"  fill="rgba(210,165,60,.4)"/>
+            <rect x="468" y="732" width="52" height="18" fill="url(#metal)"/>
+            <rect x="468" y="748" width="52" height="2"  fill="rgba(0,0,0,.5)"/>
+            <circle cx="494" cy="160" r="9"  fill="none" stroke="rgba(160,115,45,.35)" stroke-width="1.5"/>
+            <circle cx="494" cy="160" r="4"  fill="rgba(130,90,30,.3)"/>
+            <circle cx="494" cy="280" r="7"  fill="none" stroke="rgba(160,115,45,.28)" stroke-width="1.2"/>
+            <circle cx="494" cy="430" r="9"  fill="none" stroke="rgba(160,115,45,.32)" stroke-width="1.5"/>
+            <circle cx="494" cy="430" r="4"  fill="rgba(130,90,30,.25)"/>
+            <circle cx="494" cy="580" r="7"  fill="none" stroke="rgba(160,115,45,.26)" stroke-width="1.2"/>
+            <circle cx="494" cy="680" r="6"  fill="none" stroke="rgba(160,115,45,.22)" stroke-width="1"/>
+            <line x1="472" y1="200" x2="516" y2="200" stroke="rgba(160,115,45,.18)" stroke-width="1"/>
+            <line x1="472" y1="350" x2="516" y2="350" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+            <line x1="472" y1="500" x2="516" y2="500" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+            <line x1="472" y1="650" x2="516" y2="650" stroke="rgba(160,115,45,.15)" stroke-width="1"/>
+
+            <!-- ═══════════════════════════════
+                 TYMPANUM — arched panel at top
+                 with dense writhing figures in
+                 bas-relief (Rodin's upper register)
+            ═══════════════════════════════ -->
+            <!-- Tympanum background -->
+            <path d="M52,100 L52,230 Q52,100 260,95 Q468,100 468,230 L468,100 Z"
+                  fill="url(#panel)" stroke="rgba(160,115,45,.35)" stroke-width="1.5"/>
+            <!-- Tympanum arch inner border -->
+            <path d="M62,228 L62,228 Q62,115 260,110 Q458,115 458,228 L458,228"
+                  fill="none" stroke="rgba(180,135,50,.2)" stroke-width="1"/>
+            <!-- Tympanum arch tracery -->
+            <path d="M80,228 Q80,130 260,126 Q440,130 440,228"
+                  fill="none" stroke="rgba(140,100,38,.12)" stroke-width="1" stroke-dasharray="3,6"/>
+
+            <!-- Sigil in tympanum — replaces text label plate -->
+            <!-- Dark recess for sigil to sit in -->
+            <rect x="210" y="138" width="100" height="100" rx="3"
+                  fill="rgba(0,0,0,.45)" stroke="rgba(160,115,44,.22)" stroke-width="1"/>
+            <rect x="214" y="142" width="92" height="92" rx="2"
+                  fill="none" stroke="rgba(120,85,30,.14)" stroke-width="1"/>
+            <!-- Sigil image, filtered red like the site logo -->
+            <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAA4d0lEQVR42u19d3xURff+mbm76SGEFEIakFBCEzAKUpTQlCIReQmI0gS+qPgi+oICr/hLaAIq8GJ5FRQl0kNPpSeEDgmBkEZ6NmVTN9lN2XbvnN8fe29YIKGJir45n8/VZXP33pk5M8+cec6ZMwAt0iIt0iIt0iIt0iIt0iIt0iIt0iIt0iIt0iIt0iIt8kcLIpKWVmiRFvkrSlBQkPWMGZM7AAARr7+90P+FSgYHB1MAgMGDB/ceNeq1jSakboHqv9O8KyOEQGxs7GclJSXGXr16ORJCWubjp2kEIqLsN1zyoKAgLiMj4xIi4tatW6cgoiwvL8/qNzyTa9HMUyTDhw/3qaqqMjDG8NKFC0f+V+pNfq8RFxISQgFAAAASFxdHhw4dyj/Oc5YvX862bNnyYu++fQdSACMxCQIAEIIEgAJjjFBKAQAQAIBnPKEAAJQCQUIFQWAWFvL+vXv3mYiIUFVVVZeZmbnO2tpae49RQgEYkz7wps/iMwklCAIApZQrLi6uGD9+/C8i1D/OtMEBAMpkMsbzPAcASAhhf9l1pqiAR547AQBOnDjxJT4ZYeL1m+VG8o0CAACO455YGyHiEzd6ZU9auYQQHDJkiGdISMjHbm5u/Y1GY0N2dnbYhAkTfkBEKo6+R+ryHMfVAgAPAEaNRkN4nkdCCAEEANN/QRpJZsYTAQQCBJDjOKFVq1aWAMDxPA8ymQwNBoOhvr5eAEA5YuPoQQIEsLF4BAAQEJBQQpExBra2tsTS0lJGKa16zDaihBC2ffv2qX379p0pl8sd1bXqjP1h+78hhFySUOupU7C4FMGFn37a/t1Zs+I7+fh4S3/r1avX0GMnjvUghMw3U/IjNYpYVu7kyZMLYmNjI+3s7OQ8zws8z6OVFQCAFbW0tKQcx6FcLjeqVCqDSqUStm7dqjt16sT6YcNGzK6qqroVGhr6w4IFCzZqtVpYsmjJ6KMnj94cOHCghbe3t9ze3t4SEanBYID6+npExMaGdnJyIgUFBeyTTz453Llz52cYY+RxYJkQIuw7cGDl66+9tsxs9D/r3s5joru7+6sfffTRibCwMG7SpEnC0wbNHADAmfgzoYiIgiAYMzMzFaXKUg0iGrVaLa5e/cUgAICwsDDuUSA6NjY2RILGkydPvvEw0Pj++++7h4eHDz5z5sw/yioqMhGRZWVlJe/Zs2ehSqXSIyJeu3btl+PHjweFhoYOfuGFF9o8AEUAACA7O/sKIuLNmzevPQpEBwcHU0IILFq0yLe8vJwholBeXl6dmpp6paGhQYeImJqWdh0A6FO5fJPm2Nzc3BREFNLS0rIAAH788cdROp0OEZFFR0evNFfcwyo4Li4uWFLwzp07/9HErfbr1q0bcuLEiWXJyckRBQUFuZWVlYaHmI8REZHneSwrK6srLFRcvX79+ua9e/fOeOeddzo3RQRlZmZeMs3ByUmPqGAZAMDOnTvfQERkjOH+/fsXAACcOXMmQhAEVlxcXPviiy96mZMzTw1EC4JACCHIGDMAANrb29v897//7duxY8feHMcBIhJErHwcQ4KZmCcghAjPPPPM/MuXL4+RyWSUMcasra3btHJo9Wwbxzbetra29xRLnO+pWq02arXaKo7jGM/zVq6urs4cxwkAgBzHUVdXV1sAeM7T0+u53r17zx06dKh+4cKFmQaDIcvCwsJICIeM8czR0dFX7H2PVI8ePXogItIff/mxWKvVMmtra+rn5zdy9+4d+Z6enj4AgAyZUafTNRBCICQkBJcvX/50sUUAAJHR0dJoE6qrq5kgCIiIBoPBiD/99NM08V75wz4TEcm5CxdWis80PKy1LAgCY4whIhoREY8cObQYAGyDgoIc7O3tnTIzMzMYY8jzvPA41nVmZmZ6cHAwfdgRHBsbKwMAWLBwYf/y8nK9VC6e5xufeerUqV/Mp7unbk0tjk6rCxcuHTAY7tEFX1FRUb9ly5aJDwvTmZmZlgAAO3fvfE+j0QiIaOR53oCIOumhBoMBS0tLa5XKklKlUllSVFSk1Gq1vGgHMERklZWV2rlz53qbN96JE6dWm3cavV4vFBcXFxcVFRUVFxcXlZaWVtXW1pqXX8fzvF4QBF6j0eDFixdPPGw9YsV7Vq5ZE6BUKisQUTB/sNFoxMuXL5/o3bt3a0SkTzOF2liwLVu2vBIbG7tkz849b0RERC3V6/WIiEJVVRUePnz4bQCAhIQEOdz27Jh7eIikiBdfebHd2bNnDtXW1hqlXo+ImJ+fn33u3LmNO0N3vhIUFOTt4ODQGgDsAMBJoVAUiqPDwJDh9evX4yTlinMhWbVqVb+6ulqUGru8vFzdtm3bDgBgAwB2Q4YMcd60adPAU6dOheTl5aWa66O+vl64mnA1admyZb0kK99szryjLlIHWLly5bDCwqJ6RESdTocHDx5cumfPnqBz5859/P2PP475vcmnJz2S7ynkwYMHFzQ0NCAiGhoaGjA8PHyetHamlILpIiB9BgD4+eefXysoKCgy7+05OTln9+3bNxUArO94KTH9Njg4WKZUKgvE2/UmeD7yT9HZIDMjGmS3MjPTpeeWl1dq/vWvfzlTSpsynOT7Dh4MyszMPGtelvLy8oZDRw4tNDc0qVgOc2fGtm3bRpeVldUjIqtvqMfdu3cvaMZI/es4P8LCwjhElMXGxsoSxDl39+7dC0SLWq/VavHw4cMfiYaeHAA48bMMAFqdOn16o7gWRaPRaEhPT1ds3PjVLDPLlgCAhXhJv+MAwK6oqKhQmovN4VkaZYgoI6Z5cb10X1lZmRoA2onPkJuVy9LsnXT9+vVTb6bcvGUwGHhp3r5+/XrUokWLfM3qwEnl2r59++viskyor6/H/fv3/1NCr9jYWBkiysRlI/ldIfUPctnxEVFRC18ZOeIrudyCGYwGWlJckgOESKwBAQBGCGfr7e3pAQBGxhjqDQaam5tTbm/fqgARHZkgcChZyCJbBQBAKAXG89TNza2jra01B0C55JvJp3s/03u4xCBJnW/SpEnC559/PmDBggUXbGxsmFarxeJiZS6lIBBCTP5iQgAQAJERIISTy2Q8Iqpr6+pcO/n6ellYWCCllAGAZWlpaZ1Ory8hABQbmTWGrVs7+rZ2cKB1dXUQGRk5f8qUKd9KbfG382xI89GhQ4cW1TfU3zGn/g5iREQ8cODAPHMr9i4+mMvKzsq4e138hEWora3V7d+/f66Z3fGHiewPnZwJEcSR9JVCoXjXxsvGlxcEnhBCTUMFgOM4BAAuLz8vS9tQn46EyAgSREQkBBmiaXhRalogA6W3yXsChAmMUUp9e/To0aO8okK788CBKJEsuZvf5QghfGFR8aFOvp2WVFVV1RcUFJyxsrJEyT4CQEAEwkSMJgCIAMCAEY5whBAkiIRnjDl09fMbIpfJgDEmAAJBYlrYchyVVVRWKiZOnLhFrPvfb+TeqWMCc+fOlRcVF2WKSxmB3R5Bgk6nMyYmJu5s375968d9yalTp/YwxvBKwpXjzXlpJLp0+fLlA7RaLaupqdF369at8+O+8/Dhw+/X1NTUiFa5IK7FeUREhUKROXfuXPlfzpB6XAUDAFdUXJTVqGAT4WBARHbx4sWLd3PAUgTFAy4ZInKffvqpV0VlZT0i4p49e95pCp6lsogNLpdgOiIiYrn4LMuHeB9n1nEIAMDevbs/F8kVvdhvTQouUmQCAPdnKPjPCrojUj1Fg0TgOE4OAKR3797PpaenXU9PT7t27ty5b3r16uUiwhojhAjNXXFxcUAIYb169xrh7ORko1KpaqNjoyObgWcAABQEQQYAxvyC/BMAAN7t248SDTHD/d7V6FokBI4cOfJZenratZSUlBujRo2eL3ZgC0opYWK0AEGCQUFB8L8ghBACQUFBnEKhyJQYLkTExMTEUxqNRn2PY/3mjRsDBw60b/Tx3t+lCInXEiMQkV27di2iOXi+G6bXrl07WKfXo6ZWo//nv/7l9yCyX/pdzLGY/95dXp1OxxITE2Nra+skChQLFIoMM8Pubw3REg1nXVRUVCw1wIULF/YAAFy9evVXxhgKgqAX5y8dImJYWNjs+0BtozJef/31duUV5TWIiDt27JgJAKS539xFysizsrPSRVJkqUhS3PddH3/8cddqlQoR0cgLvJHneSMistycnBIAoDHHjr0vEjuCpra2ft26dc8SQh7aVfqXhOjY2FhKCMETJ06ucHd3dwcAuHXr1vWBAwdOpZQCAkjwB5RSTiwfa9WqlQulFOzt7Zvs/QEBARQAyLRp0152cXZxKC8vrw0LCzsOANgMPDcOfJGUMGZl50QDAPr4+rwmKl1oxitEgoODafv2Hi42trYIAJSjHAcmbGY2tjbyBQtmtBr9yivfJSYmbgEAam9nZxMYOO4nRJSJUP3XG8ViaGuzBklKSooFIQRWr149SK1WCxLJn5KaekCi9cLCwgJF75PEEfOIiOfPnw81cxSQ5uA5JSUlAhHZ5cuXox8Ez3fD7afBwS/pdDpUa9SGuXPn9moOpjdv3iwHAFi4cOFL1TU1zGwhIIho9Kv07vj4+A/EumgREcPDwz+WnCj3a6u/MoyTtPT0G6L1bIpiSE2NEKFSBgAQHhm+pLRUqRIEAQUThPOIiOfOnftJajhzrlv6/MasWe6VVZUaRMRde/f+3/0gvRlr2iozMzMLEXH//v3/rymYlp63aNGiPrl5ecXiUkhARKaqqtJevHgx/Pnnn3eSHCVnz55dbMaJGysqKuqXLVvW+Y9s8N9MdEi0X+jOnWOee/bZqYznBTFeCYFSAowB5Th5rUZTVF5eznfz83tGpCjkZjCJIG4nIYSsHTVq8NbVq7/e8+yzfYeKfzMOGjRodnx8PCGEzBaVDIQQjIuL4wCAH/fyy2Oc2jjZV6mqaqPCw2PuYz03aU0TQnQKhSKic+fOH3br0W00Iq4wh+nY2FjZ0KFD+cWLF/edN2/eMW9vbxcAYJRSWqWqMqxcsTJg06ZNlwEAEhMT5QAgCCggAIDABI4Syjk7O8vGjRu3aeQrI5OcHJ068TxvNLUREAAGlONAU1tLDu7f/8mGDRsKpSDGP3VISr365MmT/74vXycIWFZWhogoKAoV2qysLDUiYvLNm0fM/bSSD/jXX399Q7RKjaKxYkREjI8/E2ruopNg+OrVq9GIyBISEmIeFp7vhumVK1cO1ul1qNFoDPPmzeshwbRUxzVr1vgXFBSUSz5cpVJpYIxhalrqWakOYuSKDADgdFzcJ4iIeXl5FampqWWSw8FsGmpSgoODn3mQJf+HG1kCog5Moa36svLyKqVSWVJSUlJSWVmpBgCeUiq4urryAEDPn7+wjcpk6aK1cUcP7dy5swERydawsJNlZWU1AMAdOXLkRE1NDQEA44svvjT9woUL2wkhGBISApRSFhQU5Obt7T0IAEhmZuY+EIPtH7bskyZNYohIPvvss6tFhUWZ9vb28ldGjw4EAJg5c6bF0KFD+bVrvxo8ffr0k97e3i4IAAcOHdiu0+kqCCGQk52zDxFJYmLiHRGjnGgw2tjYlMfERK1gjFEbGxuBUiowAL66plpdXFKiLFEqleXl5dUAwNfU1PBiKNHTYUUHBARI6w0ptNVyX1jYBz179uzm4eHhd+PGjTUAIGMm4SorKzVfrFu31sbGykbC57sWyggA9ExkZGVufv5pS0tL4u3tXXz48OEZOp1ODgD6AQMGTE1IuLKXEMIBAAQGBr7i6uraqqysrG7nzp3HHsJ6bs6a1hcoCqIBADv5+LzePai7RceOHXWrV69+cdq0KdHu7u4OAAAnT50Kvnnj5k8dOnRop9aotcePH48ghGBERMQdipFCawklbRYt+iQ0Pz8/EQAoY4ynALLEhMQfPD08/Hr26NEtMjJmIQDITLz80+hsMHOSOzo716tUKg0AgL2DQ4O47OEBQJ6SkrInKSmpwGjg7UwKvTcIPi4ujgAAuZWefnBA//4TunXrFjRo0KB33T3dZS8NfnGblZW13t//+aBr165ZPvvss/949tk+rwIAlpaVxUdFRRWbuwYfVvbt24cAAPHnL0QMHjT4Q09Pz2ctsy3brVy50mPm2zNj3Nu5WzPGSFRUxPrAwPErEhIStgIAURQoLn377bd5Tb2TgemfRl7gCJC68+fPL2/fvn24FFBgb+9gAABNdXU1tG5tXyP28KdrHRzXFFwbDNJcRMyMKXl1TbVw/PjxTYhIQAoqx3trFBAQIAAAbt++/aRSqaxxdHS03X9w/6xXRr4SeuzY8fc0Go0lABj69u0bePnSpeh27h4DAIDk5+UcFjvII9dr0qRJjFIKyz/77EJefp6iVatW3PLlyzfOnDnziHs7d1vGGI2IiFgXGDh+UVBQUBs3N7fRAADZudmRhBCAuHvbkoIMxUYWnvV/1mH69OlRmZmZaWAKIgDGeCK1k5GxxsEmCAJ5eiBaggKzuYdSioQQJISgYDRK38tycnNOrlmzJo0QYiFa0k2u+ESHO3f69OmynLy8UwCAHdt3eBURyfjx4384ePjw9JqaGgsA4Pv17z/SsbWjR3l5uTom5lg0IhKxgzyyu1oQBBki6gvyC3YhIowbN+51T09PZ8YYREVFrRk/fvwSRKSjR48O8PDwaFdTU2M4Gn00GhEhJC6kCcQQIZoQpJTKCCEsKTn5O2mzGpp4bSSEIPxOG8+eGN7zZmtT4c7m9RMtTCgsKtwtjupGY6S5nXkhISEEAMiNpKQ9iEg6dOg45I03xrdHRPr2jBnbDx8+PF2lUnEAYAAAVl9fr968ebOGUoribx9ZUlNTKSEEy8rKisSvdFqtFo8dO/Z5YGDgvxHRghDCevTo8RoAYHFJ8dUtW7bcQkTS5H4iapp+EBAyMzMZIkJ0xN7w8rKyWgAAa0vLvo23SvM1AFhYWDy9VCXeOaVaOTk5DQcAUKvVkHYz7Ya0+UwiKJpb5y1fvlwghOCGDRtOFBcXK9u0aWP7+j/eGkMIYRcuXLB+++23t+/fv39GQ0ODHAD4jh07eqekpBz19vZuvXLlSvaoS4yEhAR5z549Dd9///2UsWPHbiCE6ADAMi09LXrMmDGfirHcRhcXFzs3N7dhpikhP0Isf9P8MruDjEFCCOzceahMq9OXAQC4uroOCwoK8gAA4HkemjI6nxoFc1TyAxKgctMa9N///ndP17ZtfQAADAaDPiMjQy2BMop+NWg+BhgZY1xubq46Jy8vGgDQr0uXiQAAAwYM4MW1q1oulwOYAtygR48eA6Oioo57eXk9kpITEhLkzz33nPHrb7+dMnHixJ1t2rSx4AXeCgCIvX2rrv7+/jZg4slx6dKlQz08PDw1Go3x2LFjEYgIISEh7AG+UQAAwhgj/v7+gOKuY3d3d7sJEyYMAwCQyWTc70FSPzEFE8Lh7c+mwvr36zewtYMDEQ0HrVKp1IjbS/mHYWj27dsHAEASr17dLwgC6dChw8A5c+Z0oZQaJ02aJPTp02e6XC4nycnJqfn5BVUAwHr06PF8dEx0FGPM/mGULCn32++/n/TG5Ek7nJ2doUpVxYduC11b39Cg9fXx6TR58uSBkoXcr1+/f3Ach4XFxde++eab9Gbh+S4Vu7hwAsdxmJCQwHOUYyJ6gZeX9wgAACq/HapleBoVjGaWn6VMxgAAPNzcAszWhIZTp05RRLQ4c+aMlXQ/PsCyJYTgV199Fa9QKPIdHBwsX3311VcRkYwbN66tt7d3AABAUlLSip9/3vpKaalSDwBC927dB968eTOSMWZzPyVLyv35558nvBEUtMvF2QWqVSo8fuz49Dlz5ixVFBSkcByHgwYMmEAIgREjRji079BhBACQ/Pzc+8OzWesKTCDZ2SprxpgFIcRSMDNSXF1deovKFqTOYPE0KviOh8rlPABAmzaOPcXRy7dp06a1QqG4XFxcnKYoLLzh7OzcDhgI7P7pD5AxJlMqlQ0KhSISANDb23sSAODEyZOHu7m5OZWXl9fExx89t3LlysRff90+tqSkRAcAQs+ePV9KSkqKYIxZr1q16h4lN47cb7+dMi4wMMzJyQk0Gg2NiIyc+eabb+5GRJqXl7cfAEj7jh0DEZG8+eabL7Rzc/OorasVzl44G/4w8MwYCG0c27TKz8+/XFhYmF5YWJji6uragYlatrOz6wgAMjmlevhdZuHfOnIl3vX06YUSlxoWdmAsgKd1SUlJw4NiSlPT04+bc9HN8cTBwcEBWq0W1Wo1P2RIP89r165tF12D+8XfW4p8ckBxSUmd5IVKSko6AQBWHMc1crtS6OrmzZvfqKioYIjI19fX4969e98V3Y4WAADvvvtu15qaGp0gMJw/f/4Lly9f/gIRWcatWwlwn328UpucO3fu0wdtkmtoaMCPPprX6WB4+MuIiDVqtRC8enVPAICgoKDfHBzwW5gsabMZICKJi4+nt3utkZ83L9CjdevW1gAAubm5t3hBqCJSFxU/UEJlRQrFNbhP15V4YkLI+SlTpmR27dq1y8yZ7y1wd/d8AQBISkrKAZF7FkSPTxwAvPr227MiPTzcLfv06TMiMTEx3N/f/7VVq1ZpU1JSLHr27GnYsmXLlAkTJux0cnISGrRa2bFjx96bPHnyD2JQukFkpm6988475/r06TNs1OjRH7u4unYysVd5EaKNLBP596aoTygpKcnPycm5DAAGxhjXOCETwjhKnX18fDpZW1tzPXv6d9DX1zfitpWVFSd2HiZOAezP9CqJu/VOzJO65a5du0Zu/2X7C4iIAmO4fPXq4Q9AAfKAS46I5NiJE/8RN55pDAaDoFQqVaL/lQQFBXFi0IAFAMC6deuGigjCIyJeuXLlGABYAQD89MtPb1RVVQmIyOt0usa9QikpKRaih4qEhYVZBAcH0717976PiFhRUWHUarVCXV0dfvbZZ/6ISIKDg2X3K/f96rx5839HiBGYGBkZOW3Xrl3DEBHVajWbJm61MWMBfw8D+/7KAADbEydPfFlcXHLjVmbm2fj4+FgpqmHbtm0vnT4dPxwRUafX47Zt2/pJm8N+i6xdv75fXV09k1yHiYmJOyVr9C4mzHT/2rWDKyoqqqX7r169vGfL1i3Tq6urpR0HTNr5QJrhgIOCpnuUl5drpbplZmbe/E32ibgxLSwsrJ+09+r8xYsLtm7dOhgRsba2Vrtjx44VaRkZsQUFBRnx8fHb3pg1y908uOH3hmhCCMHY2NjQgICAxnQKXTp3BslBXq3RODvWVrsDAPBGI5SWljq99dZbrg4ODjKdTtcsjSiXy9FoNN62xnlLUg8AAPXg4uICe3fsKAp8ZXRatx7duvM8D0nJyWdnz57dtlWrVjKNRsOLhAExGXhtuLi4uGSd0fjue3Pn/uzq6grPPddvcu8+fSfLZXJWX1/P9u3b99WsWbN2fBIc7FmWn8/LZLJGGOR5S9Khgwu9du0af+vWrYvOzs5DxekmfurUqa6+vr6yoqKiB1KiUnmkZ1taWhKNRsNupd6yGTFiBLOxsaFGo95Tq9UWi65F2VtvvfWZ9Htvb++urR0dn8lPSxsEAHp4REvskXqElOJn1qxZXTdu3JhBCNFv3Lhx9OhXXhn/fP/+/wQAhgCyWo2mgaMctbWztWKMQX19fb2JzTRjrwgBECMWGENCiFkKI9OGMjPUuO1kkclkltbW1paCIEBDQ0MtADBEc7cyEad5Ysp9hKillDra2trKzSI0qE6nQ95gqEJCrBEbOad72gZNo05ub2dnhQBQV1tbj4iC1HSmaqDZ9CplcyLi1pfGOjfyO2J9OGsbG1uOUtLQ0KAXGGP2dnbWUhmv37hx8OCBAxvfeefdQx4e7m1/+OmHse/933vRj5qB57GMLAs7O7ncwgKMBgMwxgS92agjAGhnb28DiFLjgJ2dna3UGqSR0CRm6hC1eBsjmvwe0SyDFaVgbW1tL7neTGmzbvcMKWcWz/P24taYO2DYysqKGijXxsJCzjUzFUnaAzGAHQGR2Nja2FJCb/c4qXx3/FvsZMQsuN9s6JG7OHhra2tLNCszAFBkTKbl+XpEZgAAsKAWlgAALi4ujzQoHyfXEyWE0EuXL8X279d/8N2eQgDgQkND/8/d3d125MiR/6mtq4PQbdvesrKySuE4TiaTyQQjAKDBQBnHoRxMG86MRmmOEgjHcSiTyVDL84QzGSKUEMIKCgpc5syZc8Td3d2a53m6e/fuj5meHWccJ0MZ3u7VRiNY2NpyYDTWF5eWDnx7+vT/urq6ygGAY4wBpVTgjUZ6Ku505JVLVz7u0aOHrUajYeLGN5OXQSeQ1q1tobCwUBgzduwuv65dewAAXL58+XxKSsp7Dg4O8uq6OuQ4DsFoMofkplc3mkZyM9cfx3EoCAIxIFIZoqDVaj3eeuutA61bt7bKzs7eeuHSpQvTp07dajQajQajUW5rY9NYnYxbtxRLFi/uffjwYbWEBL+rkSXuTnC7ePHirsLCwtxbt26dPx17+rRkiHy3efPAU6dOvYSI2NDQgOvXr+/9JN69e/fuCeZ5Nc6ePbvjfvcvW7asa4lptz+PiHj06NGVYWFh8/SmTegGnU4nREVFfXa/Z8ydO9dbrdE05gQpLimuBFOah98ka4KDfVQqlSl0OC3t/61fv76faGTVf/Pdd4sys7NPFxUVZSclJYUvXLqwuzRF/hnLJBsAgJiYmHelRvj1119Hbtmy5QUp2G7z5s2DH4QKUgBdM5ccEUlCQmIkIrLU1FSVmFdKM3LkSFfx97Lg4GAqLZOCg4OfLS4pqTJtW2QYfTT6C+l9EdERH4o5Qwyi4teJ5bAQMxPQlJQUC0SkMTExy8Rd/EV5eXnliIihoaFvhoWFcWEpYRZNlTc4GOmDgv6WLVvWQ0rycu7cuY+///77AEREjUbDFixe3EGaSX7rMkn2W0aySHXqAIDExcfbNT7Uygoyrl+v0WobwNraBnr37j0tPDzcWyaTycXQHRAAUE4pV1dXpyCEnGkuRFT83jhmzBi3n3/++SUAINHR0evatWv3gbu7u/ukKZNGEEJ2B8cGQwAE0KFDhxqCg4P7zJ4zJ8a9Xbs2AADR0THrXh07donIMBFCyH/2HdhHAl8N3GBhYaF/+eWXP4mOjuYJIZ+K6QYREY2EEEhPzxgHAJidnf2jm5ubT4cOHaZ17do18IUXXtglzpmsmTLjpk2bunfv3r2P0WhkhBAi7pTkjEajYGFh0cva2hoBgGg0GqW1tTUTf4tOrVs7ICLhOE4nCAINCQmBJ5m/8pFks0j7nT59+l+NVOWBA2Pb+bezUZaWPpCqvJaUdPJ+VKUYskpCQ0NnICKWlpVVA0Cr69evHxHDZPdIow8A4INFHzyjKCwsk3JQHTlyZI0ZfXhH5pvw8PCPGrRalPZAxcTEfCn+XQ4AsHjx4l61tbVGg9GAyz5Z1mP7ru0TERGVpcrKIUOGOIvzIWmOqjx16tRnD6g+zxBx8+bNA3fs2TNUJDqEFStW9HhSVOVvxvQutbUoeovI7cU8ypWJyoaa6poSyey57f6+bQoBAG9haVl7v+cHBAQgAKCfn984AEBFQUEcIURz69at4wBAPL28Xn5rzhxPQohh8eLFff81f+FxL09PV0SE8PDwda+99tpSkX6Ust4BIYRHRFlgYODGiPDwBVqt1hIA9KNGjVoUFRX1BSHESCmFkSOHj7Ozs5MVFRVlr/piVcb2bdtPl5aWqtzaujnNmTNnJCKS2NjYZpVgaWmpEw1PfVNLZADgqlXVLCIiItNaLreUrHGO4wgAQPfu3fFPV7AZQ4O3uWgiAwDQaNQpEmqXl5fXh27fPi86OnrGvn375pQolZUAIMP7BJiJUCcMHjzYpX379sMAgNy8efMAIpKDBw9GVVRUaNq6ujqOeGnQgLfffttn3vvvH2/v7d1WYAJERkaumzBhwpK7lWvG1vCIKJs8efLX0dHR8xsaGiwBQD9mzJiPT548vYExBh06+IwDACwqLIoCAOH48eOqnNzckwCAXbp0GQcAKHbA+5EcXFl5WcPPoaHzTp48OePw4cNvFxcXKySKt6qqsigyMrKSEGIp1flJBt39Ljk6JDaqsrIyHgBeAwBi5PmGmdOnfy/dk5ef9zEAtGP3MfnFbSnCvHnzXmnbtq1jeXm56tdffz0qzn35ixYtuuri4jKse7eeH7448CU3by8vZwCAyKjIL8YHjl8ipe9tblkhKZkQ8u2uvXv5wLFjv7e1tTUOHz70oxMnTvi6u7t3Q0SSnp4uHQFA0lJTDw8aOHBS+/bthw8ZMqQ1pbTGfDl/p6vQBFoGvUE3e+bMxrrn5+e/DwDeYhtdM0W83I6qhKcxJotnPDGrGIpuuYu1tbXScOQGDx7sIm6htH6YAG8Jnrv4+b0OAJivyI87c+ZMJQDIw8LCuNzc3O2CIJB+zz030NfXx0ecszeODxy/WFQce9CaUVLym5Mn/3Dw4MFZ1dXVcgDgR4wYEWhtbe2QnZOd9fnnn19ERAoEcMOGDcdLSkqq2rZt6zpt2rT7w7TIvVNKiZ+fnxMiyubPn28pCIK9dItSqTxp8pnrpfKgIAj41CnY/FFS7oIff/zxenl5ea5USb1ezwgh/L59+/jGfcDNuMEkeB4zZoybl4fHcAAgydeTD4mhPNykSZMEhUJRoNfrGQAYed6I58+f3zxs2LB/NQfLD1Ly9OnTfzl64sRsjUbDifMm43mhvqCgAGUyGUOG8oyMjKrCwsI4AMBevXq9fj+YJhJdRQAzMjIESin/zTffUES0McFzlfHSpUsnQeRxJSaMezoVfK8UFRVpq6ur4wAAbG1tWo0bN85dhDOCDzD6RXgmQZODRrq6ujoolcqqHTt2HEVEbtKkSdovv/yy//QZM/ba2NjwACDLzs25OXjw4HdF1uuhlXuXkuVvTp78c2xs7EdgCiAwdvPz65OUlBQtCIINAAjBwcH06rVr+wGAdOzY8eXx48c7UUqFh1inEkSEBQs+9nZ0dHQBACgrK0v88ssvs8wHxROPrvl9PMS3Eau2trYAAKBVKwf5SwEvTZL4e6k5WDMusICAAAYA6Ne12+sAgAqFIi4+Pr6SECKsWLPGf8qUKTGuLi6uYIqoJG1at/H68MMP21FK2eOcgnIbOJA6OjpaiE+wBADo06fPsLTU1ChCiO2KFSvYlu+/P1ZYVFjm4uLiNG7cuJebh2naiEbturTjCCEQEDDwtTZt2liZjNC6s02sLp6unQ23LQqzh5q1sNlci95e3jPbtWtnAwAGAJNiaRN+WBGeWWBgoLtPxw7DAYBkZ+dFIiJ8tWnTwNnTpx/38PBoDQAQERX1a1lZWZGrq6vjoAGDXkNEafQ/jgiEEHBxcZlKCIEzZ85ElShLigAAunXvHpCWlhbj5eXlePPmzer8AsUpAMCu3bo2b03T2yRUg96CR0To1KXLlNtNxozmPUskmclTaWQxMw1bWFg0nlRGKZU0qO/QvoPnl19+OZ4QwgBNy4SmnNiSgt58880xrq5tW5WXl9cnJSXsW7t2bb8pEycedXd3dwQAEh8f/3Xgq6/OyCsouAgA6NPJZ7zZ6H8kEc9UwIULF/p5eXt10+v1uGfPniXbf90+pri4SAUArFu3boOio6NiAMAuMyMjFABI506dRw4fPtyJUircJ0aLe7lfv9pNm74b6Ovj0wfEyFg5xzW2k8zSUiYZWU9nVKXZFJKdnV1HCOEJIbxWq601G83Yv//zixBRLhcjL5ui+iQF+XX3mwAAUFFZcSAnJ8ftrbemxri7u9syxkh0dPRXQ4YMWYCI5Lo4J3q1bz9w7NixHoSQR97ZEBISQgkhMHr06HF2tnbysrKydK1Wm71kyZKb3/zw7YiCgoIqAMAePXr2T89IPz5nzpwbJSUl2a4urs5Tp04diYjkHuQQ24TjKO7btw8DAgZ/bG1lBUycb+sa6rRSOxXm52skN6XB8OQio2VPUL+EMYaUUmHosKELExITX0PGsFUrh+fF7+UAIPj6du67cvXK6QJjqqbmYEkxs2bNau/p7jlEEATh/LmLZV9++eUJT0+PNowxCA8PX/v6668vFRGC79ix47Gxr75a6uXp6fbGG2+8GhUVtSUgIOBRzx8SEJF4tW8/HgCgpKQkMjQ0VJeXl2fVsWPHpPqa+pELFy481qFDh7Z+Xf0GJN24sf/q1atXXnvtNd+ePXuOJ4TskfZK371MksvkqnfffX+kr6/vOAAQKKUyxhh6tPMYf+nKlXYymQwQsaOpOZ6ysFkpvcGxEyc+vi/pKvBoNBoREVl6elp+WnpaLiLizZSUQ+ZctMQD79q76/8QESurKvUZt27pJW750KFDn5tzy9Lvzp8/v03kph86w87dnWrhwoXda2s1Rq1Wy1atWvUCgClsV6rj/Pnzu+fm5jYmKM/KyqpjjKFSqawGU7Z5kHJAA9xO4ZCdna24cOHCjbvPaGhK9Ho9rl69+omlcHhiCt534MD7lZWVlSqVqqSioqK0srJSWVlZqayoqCitqKysSk5OTrlx40aa5EJsaGgQRF/oYXOCHgBg1apVz6WkpFwyS+gp8DyPERERq+52HEgp+r/55pvXmcCwoqKiVtrQ9bAN1HigSGT0YkTE3NzcdAC4I3modCzOnDlzumTn5OSYpSAWGGN44NCBzxwcHBzNO2lcXNxi0YHAa8WjhZKTk/Nu3LiRVlFRUVVeXl5WUVGhrKioUJab2qwiLy+vYmlwcPenRsGSjBo1yrJ3796t/f39Hfz9/R3MPw8fPtwJAKzXb9r0glqj5sUoR5OzOyXFXMEWZ8+e3aXRaNDsUA1Bp9Ph0aNH/9/dyr09tRNo37596/yCgjJExF93/joXHpzl7h7XZ3pGxgVExLi4uA13dzpzJU+YMKF9RkZGhpRMVQp0yC8oKNr07aZRUqiOWRolg3SUwcaNG0cDgNXw4cOdevfu3bqp60l4kf5wkSzMkydPbjBPDnbj5s2DEpweOXJkvlkyb0EKd42JifnGbGQ05Z7jAADizsTtQkR26cqlow8L09IoWbp0Yc/a2lqjTqdjy5cvf1GC57vvl74bNmyYh0KhMM+VZRThuDIoKMgFEWlc3NmF5nU9d+7cIZPR9dc8evi+wetSJjwAsMvMzMyV5pzrN25ESQ13+crlSETkBUEwiPBnEASBnT59eqUYLdFc/kgZAJD//Oc/rwqCgFVVVZqHhWnpdPCYmGNLxUM/Mu6G56bqCQDygoKCPDG3piAlbeN5Hn/88ccAcfpaJ5kgpaWl6oXz5rUXg+q5xw2Yf6pF6v0bNm16uba21oCIvEaj0W3bunUKAMDRo0eDRdgziAdWacUR/Jn5fN8000gA2ra1zS8oKBSPwHvnYWBaygCbkZFxXkyb2CQ8363gTp06WWZnZ+eL9oGBN1lPrKKiQg8ADrt27RpWo67RIiKv1WqFnTt3TjdHm7+rNPbQAoWicRRXVlbqN23YMC49IyPidgJ4k2RnZ1dMnz7d40G9W2q4+HPnfhKt6agHwbQ0uj/88MMetbW1BoPBgGu+XBPQHDzf/a4DBw68I64MGjeTabVa/vjx49+WlZWVSl8qFIpyALD6X0gnTAgh0L17d4uioqJslDDNFE3Y2EqFhYU1WVlZyVeuXDn8wQcfPNSSQTKANmzY8BpjDCsqKtSBgYHu9/vtbes5cgkioqKgIBMALB8mM7v0zK1bt85OT0+/lJ2TkyFtRTHL7scjIhYVFZX6+Pg4NPKWf6DI/gwtp6WlMYl7JYQQxhja2dkxAICMjIy8OXPmDD9//nyRxHCHhYVxqampeD8lS4c/Dhgw4Ow/Jk6s8vbycpowYcKY8PDwrfchPQQAoL6+vuMBAHJyc08jogEA5CEhIQ/0EIkBBVsBYCsAwK49u5ZNDpq8kpr2+t42CAlAbm4ug/8BaRzBheIIFi3QxuVGSUlJ4bfffttfvPmxXhIfH/8TIuLly5fDm4NpqbPMX7iwu1qtNhoMBrZx48aXHrdiixYt8s3JzU2Q1sZm1jUWFReXtmnTptX/xAhmjFFCiEEQd7gjIiAiUEopA8batWvnOXHixDg7B7s3szKykgkh1Pwk7vtWRibj9Ho9fyPlxpWBAwfO9vX1fWlM0Bg3Qkjp3WG5ISEhdMWKFeyVoUPHtmrVSpaTk1OSmJioWrNmjU9dXR0xe6bZhjRT1Ipe9CMSQmg9z6OzvX3HyZMn/+rTsaObiDqSvYCiRgWVSqUV93bh33b4Shbt+q/X91Or1RozwsNodhkQUTAYDKhSqYw1NTWmS11jVKvVOvHS1tTU6NRqta6mxvRdjfi99DdBOhjr0IE5TVnTksGTlpZ2hTGGDQ0N+hq1WqvRaLRq6VKrtWqNRqsxu2pqavTVNTV8TU2NUVVdzVepVMbaukb7Qd9EXXhVdXXd7NmznzG3Ff52IlVs9uzZzygUioqHPGnst5xGZmSM4fXr1yLvhmlz7lmlUgmP/p47bhce5vSz3Nzc4rlz5/o9yEJ/4nPi7/ns4OBgsnz5cgwLC6OTJk0SFixY0PWDDz6I9fHxcQMAkpSUdCo/P3+bvb09FY1pyvM8s7Gz69i7V69PnZ2dLQDAoFarZRcuXojLVxRu6+DlVcdxXCue5yljTCBoiv7hONN2hIaGBocRI0asc3R0tAYAolQqNbNmzep07NixCsYYEXctyCilfFRUzKejR7+yCgBYdXW1NiYm5hMHB4dacziXtqNYW1sbNBpNbaWq0rdXj14fPPfcc96iy9NCoVBUJCcnr+Y4rooipUgREZEKgoCdOnX6wM/Pzx8AIC8vL3/FihUvbdu2rTAsLIwLCgpiISEhRITtvw50h4WFcZKBJP3/nQULOuQXFEjHvuKFixcbUyo0JV988cWA9IyMFGnI6HQ6fUpKSsSmTZsGPuD11pWVlTXmm9R27949zRymJXhOz0hPlMpTZtoxYX2/B0dFRU0vLi5OFcwyet9IvnFs7tzpvs39xs/Pzyk9/fZ7srKzbo0aNcrzTq8i/cNPY/ktUCxBoeydd97pAAAOQ4cObZ+Tk5MlVfLq1auNmW82b94sj42NlZlfZiySfVxc3DcqlUor4aIgCJiVlXUxPDz87T59+rg0peCKiooaiRFDRLyacFWypjmpfAsWLOhWXV0tcd6Sy++eDjdz5szOR48eXSKyVmh2bG3lkSNHFkv3ScfFml8JCQlyQgh06eLvnJqamiT9OC0tLe2FF17wCHzjDfdPPvmkh7ikeiQX55+q3G3btr2elZWVWllZWZefn6/Iyc0padyLdO3aKQCwNk9r1BwKSKT8L6G/zC8sLDSIx981OlQLCgqUCYkJO0+dOr7ozJkzs+POnp0eFRX1zxq1uk4kUQRExBJliVp0AMgSEhJsEJGLiIpYaj7KVSpVw/HjxxedO3fuvbj4+A/Onj27JDn5RkRpaWmdmWINPM/zBQUF6oMHD86QlPKgepiU3MU5Oflm40jOy8srLVEqK6uqqvRp6elp//nmm388dS7CpiqyfPXqoSrTgVH3HNpw7dq1YwBgQyn3UBVJSEiQIyJ38fLlEIPBwCRlmK0172sJiVlsjIiIW0W+W5L09PRExhrZpgcZWY2GmIDIG41GISMj4/hd5xc+sG3c3d2dkpOTz5l3Ukmqq6vx6w0bxv4Zh2c9rDtQ4oKjRWOn4ezZs1tSUlLipUY+cuTIXELIQ5+hK0H1+QsXVkmWsVqtMapUKr1KVWWsrKrUq9X3nIZnWqoIaBQEgZecAIrCwls3b978/tatW98nJyfvqq+r4wVBkAIKpCWN3vxBNTU1WFlZqa+qqjJWVVUZKysrjVqdzoiImJaefuJRYFWq80+//DJN9EDx6Wlp0WfOnFlfU1OjQUSWdD0p/klD9RNbk0kHSbi1dfVijGF2Vlbhiy++OHfatGldvv/h+1u2Nrbo6ur8PCL+6O/v/2hB6bQxZFN2NDrm49NxF/a7ubW2qFfVC85tnV16PtszwNvTe6Sjo2Pvtm3bOsnlcgAKQM1iCr08Pbt4eXp2aarojbylIIBSqaxW19RcVBQWnkxNTT1XXFxcJZPJiIODAxQWFsLiJUsO+XTs2MuUiOXhxd/fHxGRXLp0qR8hBA0GA7f5u++W/ee7764lJCT079u370BnZ2cvkQvXQzP7nf40BQuCwBFCBIPeUEwp7dG+Q0evU6dOrXJ0dOxsbWXNA4CsUqXKAtOBGY9If93+aGNnU75586Z8juNAJMNyAOASAKx98cUX202dOrWXj49P/7Zubv7WVpZdLC2tnNq2besqk8mYplZTq23QahwdHdtZWVnJSpQlmrraugKtVptTXl6ekp+ff3nbtrBrFy6cLLm7CJRSYIzB0qVL9eLq4JEaPy4uDoYOHYpHjhzJBwBiaWnJz/3nPzeODhx/wcfH5xlKKdZqasvBlBXvzz8vqal5BgDgp59+erm+4d593zk5OZUzZsxwexSn9u2cjxdWSM/ZsWPHhEct29WrV/eLaRhOjxgxYoxOp2P19fU6f39/v0d9VnZ29iVExNS0tEc6n0mq95QpU5xzcnKK7mFljEb85Zdf3jCf7p4qiJ40aZJ0fPtxKyuruQMHDgxxdnZ2Z4wJpaWlSQcPHvxnaGhoaYcOHR41nBV4xgNjjFFKBV9f32mn4+L6yiiVmXPUIgFMCCEUKCUcISiTyUAQBD0itmKMoY+Pr//GjRtXWVpaktLS0oa1a9dOs7GzIYxnHGMMgILJnCKEic8yZaanFGQcBb1OjzY2Nu6MMcaERzsWghCCwcHBdPfu3ZUeHh5jps2Y9oOXh9dzMplMXlVVrTxzLn7d22+/vcdsb9XTKWY9utWmTZteWL9+Te+7+N9HeZaUtXUtPmWSmZX1WAaReRssW7ash+g5c3ic9vnTqMq7s7FRSkEQhEc+y0jawH3o0KF5ffv2fUf01RK8nUet0RIhUkI8QlA6JgARCaUUGWPExta2fVtXVyfGAAXBSBWKgnRKuXpCCSC7M0mayFESEOdB86RsYnIUeW5u7qVhw4a98zhnNAUHB9OVK1cy8w2FZpvV/zq+37CwMIk5+tPDVL7++uspUtB5ZmZmJtyZyfVPI4akADz4XxZCCHCUAsdxj3xJx9H27t27dX5+fikishMnTqyjlAIiypr7HeXu/77fmjm3RX4HEuby5cvbERG/+OKLQRLCtLTO30CkXFtHIiOnpKWnVwCA/H8hwvGJLpOeZhk6dKgAAJhXXHxeVVHxGZhydFFoYnd9i7RIizztBluLtEiLtEiLtEiLtEiLtEiLtEiLtEiLtEiLtEiLtEiL/KHy/wENOnn8chsJHgAAAABJRU5ErkJggg=="
+                   x="218" y="146" width="84" height="84"
+                   preserveAspectRatio="xMidYMid meet"
+                   style="filter:brightness(0) saturate(100%) invert(15%) sepia(98%) saturate(6317%) hue-rotate(355deg) brightness(112%) contrast(122%); opacity:0.75;"/>
+
+            <!-- THE THINKER — seated atop the tympanum center -->
+            <g transform="translate(250,108)" filter="url(#relief)" opacity=".75">
+                <!-- Seated torso, head bowed on fist -->
+                <ellipse cx="10" cy="18" rx="12" ry="9" fill="url(#metal)" stroke="rgba(180,135,50,.3)" stroke-width=".5"/>
+                <!-- head -->
+                <circle cx="10" cy="8" r="7.5" fill="url(#metal)" stroke="rgba(160,120,45,.3)" stroke-width=".5"/>
+                <!-- right arm — elbow on knee, fist to chin -->
+                <path d="M16,14 Q22,20 20,28 Q18,33 15,35" stroke="rgba(180,140,55,.7)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- left arm -->
+                <path d="M4,16 Q-2,22 -4,30" stroke="rgba(180,140,55,.6)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <!-- legs -->
+                <path d="M5,26 Q2,34 0,42" stroke="rgba(180,140,55,.65)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M14,27 Q17,35 18,42" stroke="rgba(180,140,55,.6)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Tympanum relief figures — dense crowd, left side -->
+            <!-- Figure cluster left tympanum -->
+            <g transform="translate(68,130)" filter="url(#relief)" opacity=".55">
+                <!-- Figure A: reaching up -->
+                <circle cx="18" cy="30" r="7"/>
+                <path d="M18,37 Q15,52 12,66" stroke="rgba(170,130,50,.8)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                <path d="M16,44 Q6,38 0,44" stroke="rgba(170,130,50,.7)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                <path d="M20,45 Q30,40 38,46" stroke="rgba(170,130,50,.65)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                <!-- Figure B: falling -->
+                <circle cx="52" cy="50" r="6"/>
+                <path d="M52,56 Q50,68 48,80" stroke="rgba(170,130,50,.7)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                <path d="M50,62 Q40,58 34,62" stroke="rgba(170,130,50,.6)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                <path d="M54,63 Q64,60 70,64" stroke="rgba(170,130,50,.6)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                <!-- all these figures share the same stroke color from g -->
+                <g stroke="rgba(170,130,50,.7)" stroke-width="1.2" fill="none" stroke-linecap="round">
+                    <!-- Figure C: huddled -->
+                    <circle cx="88" cy="60" r="6" fill="none" stroke="rgba(170,130,50,.5)" stroke-width="1"/>
+                    <path d="M88,66 Q85,76 82,88"/>
+                    <path d="M86,72 Q78,70 72,74"/>
+                    <path d="M90,73 Q98,70 104,75"/>
+                </g>
+            </g>
+
+            <!-- Tympanum relief figures — right side -->
+            <g transform="translate(350,135)" filter="url(#relief)" opacity=".52">
+                <g stroke="rgba(170,130,50,.72)" stroke-width="1.2" fill="none" stroke-linecap="round">
+                    <circle cx="14" cy="28" r="6.5" stroke-width="1"/>
+                    <path d="M14,34 Q12,47 10,60"/>
+                    <path d="M12,40 Q2,36 -4,40"/>
+                    <path d="M16,41 Q26,37 32,41"/>
+                    <circle cx="52" cy="44" r="6" stroke-width="1"/>
+                    <path d="M52,50 Q54,62 52,74"/>
+                    <path d="M50,56 Q42,52 36,56"/>
+                    <path d="M54,57 Q62,53 68,57"/>
+                    <circle cx="84" cy="55" r="5.5" stroke-width="1"/>
+                    <path d="M84,60 Q82,70 80,82"/>
+                    <path d="M82,65 Q74,62 68,66"/>
+                </g>
+            </g>
+
+            <!-- ═══════════════════════════════
+                 DOOR FRAME / INNER BORDER
+                 The channel between pilasters and door panels
+            ═══════════════════════════════ -->
+            <!-- Frame top rail -->
+            <rect x="52" y="228" width="416" height="14" fill="url(#metal)"/>
+            <rect x="52" y="228" width="416" height="2"  fill="rgba(210,165,60,.3)"/>
+            <!-- Frame bottom rail -->
+            <rect x="52" y="732" width="416" height="18" fill="url(#metal)"/>
+            <rect x="52" y="748" width="416" height="2"  fill="rgba(0,0,0,.6)"/>
+            <!-- Frame center divider rail (between the two doors) -->
+            <rect x="254" y="242" width="12" height="490" fill="url(#pillar)"/>
+            <rect x="257" y="242" width="2"  height="490" fill="rgba(200,155,60,.22)"/>
+            <rect x="263" y="242" width="1"  height="490" fill="rgba(0,0,0,.4)"/>
+
+            <!-- ═══════════════════════════════
+                 DOOR PANEL BACKGROUNDS
+                 (actual interactive doors are
+                  HTML divs overlaid on these)
+            ═══════════════════════════════ -->
+            <!-- Left door bg fill -->
+            <rect x="52"  y="242" width="202" height="490" fill="url(#panel)"/>
+            <!-- Right door bg fill -->
+            <rect x="266" y="242" width="202" height="490" fill="url(#panel)"/>
+
+            <!-- Door panel inner border details -->
+            <rect x="62"  y="252" width="182" height="470" fill="none" stroke="rgba(150,108,40,.2)" stroke-width="1"/>
+            <rect x="70"  y="260" width="166" height="454" fill="none" stroke="rgba(120,85,30,.12)" stroke-width="1"/>
+            <rect x="276" y="252" width="182" height="470" fill="none" stroke="rgba(150,108,40,.2)" stroke-width="1"/>
+            <rect x="284" y="260" width="166" height="454" fill="none" stroke="rgba(120,85,30,.12)" stroke-width="1"/>
+
+            <!-- ═══════════════════════════════
+                 DOOR PANEL RELIEF FIGURES
+                 Dense Rodin-style bas-relief:
+                 no crawling flames, figures in
+                 expressive sculptural poses —
+                 anguished, contemplative, embracing
+            ═══════════════════════════════ -->
+
+            <!-- LEFT DOOR RELIEFS -->
+            <!-- Upper register: group of despairing figures -->
+            <g transform="translate(66,262)" filter="url(#relief)" opacity=".48"
+               stroke="rgba(190,148,60,.85)" stroke-width="1.2" fill="none" stroke-linecap="round">
+                <!-- Figure 1: back arched, head thrown back -->
+                <circle cx="45" cy="32" r="11"/>
+                <path d="M45,43 Q48,62 50,82"/>
+                <path d="M43,52 Q28,46 18,52 Q12,56 14,64"/>
+                <path d="M47,54 Q62,48 74,54"/>
+                <path d="M50,82 Q46,100 44,118"/>
+                <path d="M50,82 Q55,98 56,116"/>
+                <!-- Figure 2: hunched, head bowed -->
+                <circle cx="128" cy="52" r="9.5"/>
+                <path d="M128,61 Q124,78 120,96"/>
+                <path d="M126,69 Q112,64 102,70"/>
+                <path d="M130,70 Q142,66 150,72"/>
+                <path d="M120,96 Q115,112 118,128"/>
+                <path d="M120,96 Q126,114 124,130"/>
+            </g>
+
+            <!-- Left door middle register: embracing / despairing pair -->
+            <g transform="translate(62,380)" filter="url(#relief)" opacity=".44"
+               stroke="rgba(185,145,58,.8)" stroke-width="1.1" fill="none" stroke-linecap="round">
+                <!-- Figure 3: kneeling, arms outstretched -->
+                <circle cx="40" cy="30" r="10"/>
+                <path d="M40,40 Q37,56 34,72"/>
+                <!-- arms wide -->
+                <path d="M38,48 Q24,42 12,48 Q6,52 8,60"/>
+                <path d="M42,49 Q56,44 68,50"/>
+                <!-- kneeling legs -->
+                <path d="M34,72 Q28,84 30,96"/>
+                <path d="M34,72 Q38,85 36,98"/>
+                <!-- Figure 4: leaning figure beside -->
+                <circle cx="118" cy="44" r="9"/>
+                <path d="M118,53 Q115,68 112,84"/>
+                <path d="M116,60 Q102,56 94,62"/>
+                <path d="M120,61 Q132,57 140,63"/>
+                <path d="M112,84 Q108,98 110,112"/>
+                <path d="M112,84 Q118,100 116,114"/>
+            </g>
+
+            <!-- Left door lower register: solitary figure seated -->
+            <g transform="translate(70,538)" filter="url(#relief)" opacity=".4"
+               stroke="rgba(180,140,55,.75)" stroke-width="1.1" fill="none" stroke-linecap="round">
+                <circle cx="82" cy="28" r="12"/>
+                <!-- seated, contemplative -->
+                <path d="M82,40 Q80,58 78,74"/>
+                <path d="M80,50 Q66,45 56,52"/>
+                <path d="M84,51 Q98,46 108,53"/>
+                <!-- legs bent, seated pose -->
+                <path d="M78,74 Q70,82 60,88 Q52,92 54,100"/>
+                <path d="M78,74 Q84,83 90,90 Q96,96 92,106"/>
+                <!-- head slightly bowed -->
+                <path d="M80,40 Q76,35 72,30"/>
+            </g>
+
+            <!-- RIGHT DOOR RELIEFS (complementary figures) -->
+            <!-- Upper register -->
+            <g transform="translate(272,262)" filter="url(#relief)" opacity=".46"
+               stroke="rgba(190,148,60,.82)" stroke-width="1.2" fill="none" stroke-linecap="round">
+                <!-- Figure 5: reaching upward with both arms -->
+                <circle cx="50" cy="30" r="11"/>
+                <path d="M50,41 Q47,60 44,80"/>
+                <!-- both arms raised -->
+                <path d="M48,50 Q32,38 20,44 Q12,48 16,40"/>
+                <path d="M52,51 Q68,40 80,46 Q88,50 85,42"/>
+                <path d="M44,80 Q40,98 42,116"/>
+                <path d="M44,80 Q50,96 48,114"/>
+                <!-- Figure 6: twisted, turning away -->
+                <circle cx="130" cy="48" r="10"/>
+                <path d="M130,58 Q133,74 136,92"/>
+                <path d="M128,66 Q116,60 106,66"/>
+                <path d="M132,67 Q144,62 152,68"/>
+                <path d="M136,92 Q140,108 138,124"/>
+                <path d="M136,92 Q130,110 132,126"/>
+            </g>
+
+            <!-- Right door middle register -->
+            <g transform="translate(268,382)" filter="url(#relief)" opacity=".42"
+               stroke="rgba(185,145,58,.78)" stroke-width="1.1" fill="none" stroke-linecap="round">
+                <!-- Figure 7: falling backward -->
+                <circle cx="44" cy="26" r="10"/>
+                <path d="M44,36 Q48,52 52,70"/>
+                <path d="M42,44 Q28,38 18,44"/>
+                <path d="M46,45 Q60,40 70,46"/>
+                <path d="M52,70 Q56,86 54,102"/>
+                <path d="M52,70 Q46,88 48,104"/>
+                <!-- Figure 8: crawling upward (internal gate, not outward) -->
+                <circle cx="120" cy="50" r="9.5"/>
+                <path d="M120,59 Q116,74 112,90"/>
+                <path d="M118,66 Q104,62 96,68"/>
+                <path d="M122,67 Q134,63 142,69"/>
+                <path d="M112,90 Q108,104 110,118"/>
+                <path d="M112,90 Q118,106 116,120"/>
+            </g>
+
+            <!-- Right door lower register -->
+            <g transform="translate(276,544)" filter="url(#relief)" opacity=".38"
+               stroke="rgba(178,138,52,.72)" stroke-width="1.1" fill="none" stroke-linecap="round">
+                <!-- Two figures in an embrace — like Paolo and Francesca -->
+                <circle cx="55" cy="26" r="10.5"/>
+                <circle cx="88" cy="22" r="9.5"/>
+                <path d="M55,36 Q55,54 54,72"/>
+                <path d="M88,31 Q88,50 87,68"/>
+                <!-- arms toward each other -->
+                <path d="M57,44 Q70,38 82,42"/>
+                <path d="M57,44 Q44,40 34,46"/>
+                <path d="M82,42 Q96,38 104,44"/>
+                <!-- legs -->
+                <path d="M54,72 Q50,88 52,104"/>
+                <path d="M54,72 Q58,90 56,106"/>
+                <path d="M87,68 Q85,84 86,100"/>
+                <path d="M87,68 Q90,85 89,102"/>
+            </g>
+
+            <!-- ═══════════════════════════════
+                 BASE / THRESHOLD
+            ═══════════════════════════════ -->
+            <rect x="0" y="748" width="520" height="12" fill="url(#metal)"/>
+            <rect x="0" y="748" width="520" height="2"  fill="rgba(210,165,60,.35)"/>
+            <rect x="0" y="758" width="520" height="2"  fill="rgba(0,0,0,.6)"/>
+            <!-- Base decorative line -->
+            <line x1="20" y1="754" x2="500" y2="754" stroke="rgba(180,135,50,.2)" stroke-width="1"/>
+
+            <!-- Hell glow seeping from base of doors -->
+            <ellipse cx="260" cy="748" rx="140" ry="12"
+                     fill="rgba(255,55,0,.18)" filter="url(#softglow)"/>
+            <ellipse cx="260" cy="748" rx="80" ry="6"
+                     fill="rgba(255,90,10,.25)" filter="url(#glow)"/>
+        </svg>
+
+        <!-- Interactive door overlays (HTML for 3D CSS transform) -->
+        <div class="gate-doors" id="gateDoors">
+            <div class="door left" id="doorLeft">
+                <div class="door-face">
+                    <div class="door-panel-frame"></div>
+                    <div class="door-knob"></div>
+                </div>
+            </div>
+            <div class="door-crack"></div>
+            <div class="door right" id="doorRight">
+                <div class="door-face">
+                    <div class="door-panel-frame"></div>
+                    <div class="door-knob"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
     </div>
 </section>
 
@@ -144,7 +595,7 @@
     <div class="footer-line"></div>
     <div class="footer-brand">DJAVLAR PRODUCTIONS</div>
     <div class="footer-copy">
-        © 2022–2026 DJAVLAR PRODUCTIONS. All Rights Reserved.<br>
+        &copy; 2022&ndash;2026 DJAVLAR PRODUCTIONS. All Rights Reserved.<br>
         Mastering the Art of Sound.
     </div>
 </footer>
