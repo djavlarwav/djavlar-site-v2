@@ -395,7 +395,7 @@ nav {
 
 /* Inner lines */
 .merch-card-line {
-    width: 60px;
+    width: 180px;
     height: 2px;
     background: var(--red);
     box-shadow: 0 0 8px rgba(255,49,49,.5);
