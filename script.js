@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const track = document.getElementById("merchTicker");
     if (track) {
         const words = [
-            "MERCH TOMB", "DJAVLAR PRODUCTIONS",
+            "THE TOMB", "DJAVLAR PRODUCTIONS",
             "LOS ANGELES CA", "EST. 2022",
             "MASTERING THE ART OF SOUND"
         ];
