@@ -10,7 +10,6 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
-    /* Prevent font size inflation on mobile */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
@@ -29,11 +28,10 @@ body {
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* Prevent tap highlight flash on mobile */
     -webkit-tap-highlight-color: transparent;
 }
 
-/* ── GRAIN OVERLAY ── */
+/* ── GRAIN ── */
 .grain {
     position: fixed;
     inset: -50%;
@@ -47,23 +45,28 @@ body {
     animation: grainShift 0.08s steps(1) infinite;
 }
 
-/* Reduce grain motion on devices that prefer it */
-@media (prefers-reduced-motion: reduce) {
-    .grain { animation: none; }
-}
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
 
 @keyframes grainShift {
-    0%   { transform: translate(0,    0);    }
-    10%  { transform: translate(-3%,  -4%);  }
-    20%  { transform: translate(4%,   2%);   }
-    30%  { transform: translate(-2%,  5%);   }
-    40%  { transform: translate(5%,   -3%);  }
-    50%  { transform: translate(-4%,  1%);   }
-    60%  { transform: translate(2%,   -5%);  }
-    70%  { transform: translate(-5%,  3%);   }
-    80%  { transform: translate(3%,   4%);   }
-    90%  { transform: translate(-1%,  -2%);  }
-    100% { transform: translate(4%,   -4%);  }
+    0%   { transform: translate(0,    0);   }
+    10%  { transform: translate(-3%,  -4%); }
+    20%  { transform: translate(4%,   2%);  }
+    30%  { transform: translate(-2%,  5%);  }
+    40%  { transform: translate(5%,   -3%); }
+    50%  { transform: translate(-4%,  1%);  }
+    60%  { transform: translate(2%,   -5%); }
+    70%  { transform: translate(-5%,  3%);  }
+    80%  { transform: translate(3%,   4%);  }
+    90%  { transform: translate(-1%,  -2%); }
+    100% { transform: translate(4%,   -4%); }
+}
+
+/* ── EMBER CANVAS ── */
+#embers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
 }
 
 /* ════════════════════════════════════
@@ -91,7 +94,6 @@ nav {
     font: 700 0.85rem 'ITC Benguiat', serif;
     letter-spacing: 1.5px;
     cursor: pointer;
-    /* Minimum 44px touch target (Apple HIG) */
     min-height: 44px;
     padding: 0 8px;
     transition: color 0.2s;
@@ -108,7 +110,7 @@ nav {
     opacity: 0;
     width: min(1000px, 92vw);
     margin: 0 auto;
-    min-height: calc(100vh - 73px); /* subtract nav height */
+    min-height: calc(100vh - 73px);
     padding: 36px 20px 80px;
     text-align: center;
 }
@@ -151,7 +153,6 @@ nav {
     animation: rotateSigil 100s linear infinite;
 }
 
-/* Hero red lines */
 .hero-line {
     display: block;
     height: 2px;
@@ -192,7 +193,7 @@ nav {
 }
 
 /* ════════════════════════════════════
-   PAGE LOGO (shared across pages)
+   PAGE LOGO
 ════════════════════════════════════ */
 .page-logo {
     width: clamp(70px, 14vw, 110px);
@@ -236,7 +237,6 @@ nav {
     flex-direction: column;
     gap: 14px;
     align-items: center;
-    /* Ensure comfortable touch area */
     padding: 12px 8px;
     transition: opacity 0.2s;
 }
@@ -251,7 +251,6 @@ nav {
     letter-spacing: 2px;
 }
 
-/* Brand colors */
 .music-icons a.spotify  i { color: #1DB954; }
 .music-icons a.apple    i { color: #fc3c44; }
 .music-icons a.bandcamp i { color: #1da0c3; }
@@ -305,283 +304,137 @@ nav {
     font-size: clamp(0.75rem, 2vw, 0.9rem);
     transition: background 0.2s;
     display: inline-block;
-    /* Minimum touch target */
     min-height: 48px;
     line-height: 1.6;
 }
 
 .email-btn:hover,
-.email-btn:focus-visible {
-    background: var(--red);
-    outline: none;
-}
+.email-btn:focus-visible { background: var(--red); outline: none; }
 
 /* ════════════════════════════════════
-   MERCH — GATE
+   MERCH
 ════════════════════════════════════ */
-.merch-page-section {
-    position: relative;
+
+/* Ticker */
+.merch-ticker-wrap {
     overflow: hidden;
-    padding-top: 0 !important;
+    border-top: 1px solid rgba(255,49,49,0.3);
+    border-bottom: 1px solid rgba(255,49,49,0.3);
+    padding: 9px 0;
+    margin-bottom: 50px;
+    background: rgba(255,49,49,0.03);
 }
 
-.merch-gate-wrap {
+.merch-ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerScroll 22s linear infinite;
+}
+
+.merch-ticker-track:hover { animation-play-state: paused; }
+
+.merch-ticker-item {
+    white-space: nowrap;
+    padding: 0 28px;
+    font-size: 0.62rem;
+    letter-spacing: 5px;
+    color: var(--red);
+    opacity: 0.65;
+}
+
+@keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+/* Center layout */
+.merch-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40vh;
+}
+
+/* Card */
+.merch-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 20px 60px;
+    gap: 16px;
+    padding: 40px 40px 44px;
+    border: 1px solid rgba(255,49,49,0.2);
+    background: rgba(0,0,0,0.2);
+    width: min(480px, 88vw);
     position: relative;
-    z-index: 10;
 }
 
-.gate-hint {
-    font-size: .5rem;
+/* Subtle corner accents */
+.merch-card::before,
+.merch-card::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: rgba(255,49,49,0.45);
+    border-style: solid;
+}
+.merch-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.merch-card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Inner lines */
+.merch-card-line {
+    width: 60px;
+    height: 2px;
+    background: var(--red);
+    box-shadow: 0 0 8px rgba(255,49,49,.5);
+    animation: lineGrow 1s ease forwards;
+}
+
+@keyframes lineGrow {
+    from { width: 0; }
+    to   { width: 60px; }
+}
+
+.merch-card-label {
+    font-size: clamp(0.55rem, 1.8vw, 0.65rem);
     letter-spacing: 5px;
+    color: rgba(255,49,49,0.55);
+}
+
+.merch-card-title {
+    font-size: clamp(1.6rem, 6vw, 2.8rem);
     color: var(--red);
-    margin-bottom: 14px;
-    opacity: .5;
-    animation: hintPulse 3s ease-in-out infinite;
+    letter-spacing: 4px;
+    line-height: 1;
 }
 
-@keyframes hintPulse {
-    0%, 100% { opacity: .25; }
-    50%       { opacity: .6; }
+.merch-card-sub {
+    font-size: clamp(0.5rem, 1.6vw, 0.6rem);
+    letter-spacing: 3px;
+    color: rgba(242,242,242,0.3);
 }
 
-/* Deep red hell gradient behind everything */
-.hell-bg {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-        radial-gradient(ellipse 90% 60% at 50% 110%, rgba(180,30,0,0.55) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(120,15,0,0.4) 0%, transparent 60%),
-        radial-gradient(ellipse 100% 80% at 50% 50%, #1a0808 0%, #0c0809 60%, #080506 100%);
-    animation: hellBreath 6s ease-in-out infinite;
-}
-@keyframes hellBreath {
-    0%,100% { opacity:.85; }
-    50%      { opacity:1; }
-}
-
-/* ── GRAIN ── */
-.grain {
-    position: fixed; inset: -50%; width:200%; height:200%;
-    pointer-events:none; z-index:9999; opacity:.038;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-    animation: grain .08s steps(1) infinite;
-}
-@keyframes grain {
-    0%{transform:translate(0,0)} 20%{transform:translate(4%,2%)}
-    40%{transform:translate(5%,-3%)} 60%{transform:translate(2%,-5%)}
-    80%{transform:translate(3%,4%)} 100%{transform:translate(4%,-4%)}
+/* The button */
+.merch-enter-btn {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid var(--red);
+    padding: 14px 32px;
+    letter-spacing: 3px;
+    font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+    min-height: 52px;
+    transition: background 0.2s, box-shadow 0.2s, letter-spacing 0.2s;
+    box-shadow: 0 0 16px rgba(255,49,49,0.1);
 }
 
-/* ── STATIC BURST ── */
-.static-burst {
-    position:fixed; inset:0; z-index:8888; pointer-events:none; opacity:0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-    background-size:120px 120px; mix-blend-mode:screen;
-}
-.static-burst.fire { animation: sBurst .5s ease-out forwards; }
-@keyframes sBurst {
-    0%{opacity:.8;background-size:80px 80px}
-    30%{opacity:.5;background-size:140px 140px}
-    100%{opacity:0}
-}
-
-/* ── EMBER CANVAS ── */
-#embers { position:fixed; inset:0; pointer-events:none; z-index:50; }
-
-/* ── NAV ── */
-.mock-nav {
-    position:sticky; top:0; z-index:1000;
-    display:flex; justify-content:center; gap:28px; padding:16px;
-    background:rgba(10,6,7,0.97); backdrop-filter:blur(10px);
-    font-size:.88rem; letter-spacing:1.5px; border-bottom:1px solid rgba(255,49,49,0.08);
-}
-.mock-nav span { color:#555; }
-.mock-nav span.active { color:var(--red); }
-
-/* ── TICKER ── */
-.ticker-wrap {
-    overflow:hidden;
-    border-top:1px solid rgba(255,49,49,0.22);
-    border-bottom:1px solid rgba(255,49,49,0.22);
-    padding:9px 0; background:rgba(255,49,49,0.025);
-    position:relative; z-index:10;
-}
-.ticker-track { display:flex; width:max-content; animation:tickScroll 26s linear infinite; }
-.ticker-track:hover { animation-play-state:paused; }
-.ticker-item { white-space:nowrap; padding:0 28px; font-size:.6rem; letter-spacing:5px; color:var(--red); opacity:.6; }
-@keyframes tickScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
-/* ── PAGE ── */
-.merch-page {
-    flex:1; display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    padding:28px 20px 60px;
-    position:relative; z-index:10;
-}
-
-.gate-hint {
-    font-size:.5rem; letter-spacing:5px; color:var(--red);
-    margin-bottom:14px; opacity:.5;
-    animation:hintPulse 3s ease-in-out infinite;
-}
-@keyframes hintPulse { 0%,100%{opacity:.25} 50%{opacity:.6} }
-
-/* ══════════════════════════════════════════
-   THE GATE — single monumental structure
-   Rodin proportions: wide frame, tall doors,
-   dense tympanum at top
-══════════════════════════════════════════ */
-.gate-scene {
-    position:relative;
-    cursor:pointer;
-    width: clamp(280px, 72vw, 520px);
-    transition: filter .4s;
-    filter: drop-shadow(0 0 40px rgba(180,30,0,0.2)) drop-shadow(0 20px 60px rgba(0,0,0,0.8));
-}
-.gate-scene:hover {
-    filter: drop-shadow(0 0 60px rgba(220,50,0,0.4)) drop-shadow(0 20px 60px rgba(0,0,0,0.9));
-}
-
-/* Floor glow under gate */
-.gate-glow {
-    position:absolute; bottom:-18px; left:8%; right:8%; height:40px;
-    background:radial-gradient(ellipse, rgba(200,50,0,0.45) 0%, transparent 70%);
-    filter:blur(12px);
-    animation:glowPulse 2.8s ease-in-out infinite;
-    pointer-events:none; z-index:-1;
-}
-@keyframes glowPulse { 0%,100%{opacity:.5;transform:scaleX(.93)} 50%{opacity:1;transform:scaleX(1.06)} }
-
-/* ── MAIN GATE SVG ── */
-.gate-svg { width:100%; display:block; }
-
-/* ── DOOR PANELS (two halves, open on click) ── */
-.gate-doors {
-    position:absolute;
-    /* Positioned to overlay the door area of the SVG */
-    /* These values tuned to the SVG viewBox 0 0 520 760 */
-    top: 29.5%;   /* below tympanum */
-    left: 9.8%;
-    right: 9.8%;
-    bottom: 3.8%;
-    display:flex;
-    transform-style:preserve-3d;
-    perspective:1000px;
-}
-
-.door {
-    flex:1; position:relative;
-    transform-style:preserve-3d;
-    transform-origin: var(--o);
-    transition: transform 1.4s cubic-bezier(0.35,0,0.15,1);
-    --o: left center;
-    overflow:hidden;
-}
-.door.right { --o: right center; }
-
-.gate-scene.opening .door.left  { transform:perspective(900px) rotateY(-118deg); }
-.gate-scene.opening .door.right { transform:perspective(900px) rotateY(118deg); }
-
-.door-face {
-    width:100%; height:100%;
-    background: linear-gradient(155deg,
-        #4a3a24 0%, #241a0e 14%, #120e08 28%,
-        #1e1610 42%, #2c2218 56%, #181008 70%,
-        #0e0a06 84%, #181210 100%);
-    border-left:1px solid rgba(140,100,40,.3);
-    border-right:1px solid rgba(140,100,40,.3);
-    position:relative; overflow:hidden;
-    backface-visibility:hidden;
-}
-
-/* 3D bevel sheen */
-.door-face::before {
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(145deg,
-        rgba(200,150,60,.18) 0%, transparent 22%,
-        transparent 75%, rgba(0,0,0,.5) 100%);
-    z-index:1; pointer-events:none;
-}
-
-/* Scanline depth */
-.door-face::after {
-    content:''; position:absolute; inset:0;
-    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.045) 2px,rgba(0,0,0,.045) 3px);
-    z-index:2; pointer-events:none;
-}
-
-/* Door inner frame detail */
-.door-panel-frame {
-    position:absolute; inset:8px;
-    border:1px solid rgba(160,115,45,.22); z-index:3; pointer-events:none;
-}
-.door-panel-frame::before {
-    content:''; position:absolute; inset:7px;
-    border:1px solid rgba(120,85,32,.14);
-}
-
-/* Rodin-inspired bas-relief scene on door — SVG overlay */
-.door-relief {
-    position:absolute; inset:0; z-index:4;
-    opacity:.5;
-}
-
-/* Door knob */
-.door-knob {
-    position:absolute; z-index:6; top:50%;
-    width:12px; height:12px; border-radius:50%;
-    background:radial-gradient(circle at 33% 33%, #d4a845, #6b4a18);
-    box-shadow:0 0 10px rgba(200,160,50,.45), inset 0 1px 0 rgba(255,230,110,.4);
-    transform:translateY(-50%);
-}
-.door.left  .door-knob { right:10px; }
-.door.right .door-knob { left:10px; }
-
-/* Hell-light crack between doors */
-.door-crack {
-    position:absolute; top:0; bottom:0; left:50%;
-    transform:translateX(-50%);
-    width:3px; z-index:20; pointer-events:none;
-    background:linear-gradient(180deg,
-        transparent 0%, rgba(255,100,20,.5) 10%,
-        rgba(255,170,60,.95) 35%, rgba(255,140,40,.9) 60%,
-        rgba(255,100,20,.5) 88%, transparent 100%);
-    filter:blur(1.5px);
-    animation:crackFlicker 3.5s ease-in-out infinite;
-}
-@keyframes crackFlicker {
-    0%,100%{opacity:.4;filter:blur(2px)}
-    18%{opacity:1;filter:blur(.5px)}
-    55%{opacity:.6;filter:blur(1.5px)}
-    80%{opacity:.95;filter:blur(.8px)}
-}
-
-/* ── REDIRECT OVERLAY ── */
-.redirect-overlay {
-    position:fixed; inset:0; z-index:9000;
-    background:radial-gradient(ellipse at 50% 50%, rgba(240,60,0,.95) 0%, rgba(140,10,0,.98) 50%, #000 100%);
-    opacity:0; pointer-events:none;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:14px;
-    transition:opacity .5s ease;
-}
-.redirect-overlay.show { opacity:1; pointer-events:all; }
-.redirect-text {
-    font-size:clamp(1rem,4vw,1.5rem); letter-spacing:7px; color:#fff;
-    text-shadow:0 0 30px rgba(255,150,0,.9);
-    animation:overlayPulse .9s ease-in-out infinite;
-}
-.redirect-sub { font-size:.55rem; letter-spacing:5px; color:rgba(255,210,110,.6); }
-@keyframes overlayPulse { 0%,100%{opacity:.7} 50%{opacity:1} }
-
-.mockup-note {
-    position:fixed; bottom:12px; right:12px;
-    font-size:.48rem; letter-spacing:2px;
-    color:rgba(255,49,49,.25); z-index:9998; pointer-events:none;
+.merch-enter-btn:hover,
+.merch-enter-btn:focus-visible {
+    background: var(--red);
+    box-shadow: 0 0 30px rgba(255,49,49,0.4);
+    letter-spacing: 4px;
+    outline: none;
 }
 
 /* ════════════════════════════════════
@@ -628,18 +481,16 @@ nav {
 }
 
 /* ════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE
 ════════════════════════════════════ */
-
-/* ── Small phones (≤ 390px) ── */
 @media (max-width: 390px) {
     nav { gap: 2px 10px; padding: 10px 8px; }
     .nav-btn { font-size: 0.72rem; letter-spacing: 0.5px; min-height: 40px; }
     .hero h1 { font-size: 2.4rem; }
     .music-icons { grid-template-columns: 1fr; max-width: 220px; }
+    .merch-card { padding: 28px 20px 32px; }
 }
 
-/* ── Tablets (768px – 1024px) ── */
 @media (min-width: 768px) {
     nav { gap: 6px 28px; padding: 18px 24px; }
     .nav-btn { font-size: 0.95rem; }
@@ -647,7 +498,6 @@ nav {
     .page { padding: 48px 32px 100px; }
 }
 
-/* ── Desktop (≥ 1024px) ── */
 @media (min-width: 1024px) {
     nav { gap: 8px 40px; padding: 22px 32px; }
     .nav-btn { font-size: 1rem; }
