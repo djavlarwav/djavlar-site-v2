@@ -27,8 +27,11 @@ body {
     background: radial-gradient(circle at top, #2f222b 0%, #241b22 45%, #181318 100%);
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
+    /* Prevent layout shifts on scroll in Safari */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ── GRAIN ── */
@@ -84,6 +87,8 @@ nav {
     background: rgba(36, 27, 34, 0.97);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    /* Fallback for browsers without backdrop-filter */
+    box-shadow: 0 1px 0 rgba(255,49,49,0.08);
     z-index: 1000;
 }
 
@@ -110,8 +115,8 @@ nav {
     opacity: 0;
     width: min(1000px, 92vw);
     margin: 0 auto;
-    min-height: calc(100vh - 73px);
-    padding: 36px 20px 80px;
+    min-height: auto;
+    padding: clamp(36px, 6vh, 60px) 20px clamp(60px, 10vh, 100px);
     text-align: center;
 }
 
@@ -134,11 +139,12 @@ nav {
    HOME
 ════════════════════════════════════ */
 .hero {
-    min-height: calc(100vh - 73px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: clamp(40px, 8vh, 80px);
+    padding-bottom: clamp(40px, 8vh, 80px);
 }
 
 .hero-logo {
@@ -303,9 +309,15 @@ nav {
     letter-spacing: 2px;
     font-size: clamp(0.75rem, 2vw, 0.9rem);
     transition: background 0.2s;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-height: 48px;
     line-height: 1.6;
+    /* Firefox fix */
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
 }
 
 .email-btn:hover,
@@ -352,7 +364,8 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 40vh;
+    min-height: 35vh;
+    padding: 0 20px;
 }
 
 /* Card */
@@ -466,6 +479,17 @@ nav {
     line-height: 1.9;
 }
 
+
+/* ── MUSIC MESSAGE ── */
+.music-message {
+    max-width: 520px;
+    margin: clamp(32px, 5vw, 50px) auto 0;
+    font-size: clamp(0.72rem, 2vw, 0.85rem);
+    line-height: 2;
+    letter-spacing: 1.5px;
+    color: rgba(242,242,242,0.45);
+    font-style: italic;
+}
 /* ════════════════════════════════════
    ANIMATIONS
 ════════════════════════════════════ */
